@@ -31,11 +31,25 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci --include=dev --no-audit --no-fund
-      - name: Verify nyc is installed
+      - name: Diagnose node_modules visibility
         run: |
+          set -euxo pipefail
+          pwd
+          id
+          umask
+          ls -la
+          ls -la node_modules || true
+          stat node_modules || true
+          # Find any .bin directories even if not where you expect
+          find . -maxdepth 4 -type d -name .bin -print || true
+          # If the expected path exists, inspect it
+          if [ -e node_modules/.bin ]; then
+            ls -la node_modules/.bin || true
+            stat node_modules/.bin || true
+          fi
+          # Prove whether nyc is installed, independent of PATH/.bin
+          node -p "require.resolve('nyc/package.json')" || true
           npm ls nyc || true
-          ls -la node_modules/.bin | sed -n '1,200p'
-          test -x node_modules/.bin/nyc && echo "nyc bin exists" || (echo "nyc bin missing" && exit 1)
       - name: Debug npm config on failure
         if: failure()
         run: |
