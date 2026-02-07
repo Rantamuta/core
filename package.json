@@ -21,7 +21,6 @@
     "longjohn": "^0.2.11",
     "pretty-error": "^2.0.2",
     "require-dir": "^1.1.0",
-    "sty": "",
     "winston": "^2.4.4",
     "wrap-ansi": "^2.0.0"
   },
