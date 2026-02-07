@@ -11,8 +11,8 @@
     "node": ">= 22"
   },
   "scripts": {
-    "test": "npx nyc --reporter=html --reporter=text --include=src --all mocha --recursive",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "test": "npx c8 --reporter=html --reporter=text --all --src=src mocha --recursive",
+    "coverage": "c8 report --reporter=text-lcov | coveralls"
   },
   "main": "index.js",
   "dependencies": {
@@ -26,8 +26,8 @@
     "wrap-ansi": "^2.0.0"
   },
   "devDependencies": {
+    "c8": "^10.1.3",
     "coveralls": "^3.0.2",
-    "mocha": "^10.5.0",
-    "nyc": "^15.1.0"
+    "mocha": "^10.5.0"
   }
 }
