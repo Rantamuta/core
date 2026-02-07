@@ -1,6 +1,6 @@
 'use strict';
 
-const uuid = require('uuid/v4');
+const { randomUUID } = require('crypto');
 const Attributes = require('./Attributes');
 const Character = require('./Character');
 const Config = require('./Config');
@@ -37,7 +37,7 @@ class Npc extends Scriptable(Character) {
     this.id = data.id;
     this.keywords = data.keywords;
     this.quests = data.quests || [];
-    this.uuid = data.uuid || uuid();
+    this.uuid = data.uuid || randomUUID();
     this.commandQueue = new CommandQueue();
   }
 
