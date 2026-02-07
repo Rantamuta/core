@@ -1,6 +1,6 @@
 'use strict';
 
-const ansi = require('sty');
+const ansi = require('./Ansi');
 ansi.enable(); // force ansi on even when there isn't a tty for the server
 const wrap = require('wrap-ansi');
 
@@ -93,7 +93,7 @@ class Broadcast {
    */
   static sayAt(source, message, wrapWidth, useColor, formatter) {
     Broadcast.at(source, message, wrapWidth, useColor, (target, message) => {
-      return (formatter ? formatter(target, message) : message ) + '\r\n';
+      return (formatter ? formatter(target, message) : message) + '\r\n';
     });
   }
 
@@ -103,7 +103,7 @@ class Broadcast {
    */
   static sayAtExcept(source, message, excludes, wrapWidth, useColor, formatter) {
     Broadcast.atExcept(source, message, excludes, wrapWidth, useColor, (target, message) => {
-      return (formatter ? formatter(target, message) : message ) + '\r\n';
+      return (formatter ? formatter(target, message) : message) + '\r\n';
     });
   }
 
@@ -161,11 +161,11 @@ class Broadcast {
     percent = Math.max(0, percent);
     width -= 3; // account for delimiters and tip of bar
     if (percent === 100) {
-        width++; // 100% bar doesn't have a second right delimiter
+      width++; // 100% bar doesn't have a second right delimiter
     }
     barChar = barChar[0];
     fillChar = fillChar[0];
-    const [ leftDelim, rightDelim ] = delimiters;
+    const [leftDelim, rightDelim] = delimiters;
     const openColor = `<${color}>`;
     const closeColor = `</${color}>`;
     let buf = openColor + leftDelim + "<bold>";
@@ -251,7 +251,6 @@ class Broadcast {
     // Fix \n not in a \r\n pair to prevent bad rendering on windows
     message = message.replace(/\r\n/g, '<NEWLINE>').split('\n');
     message = message.join('\r\n').replace(/<NEWLINE>/g, '\r\n');
-    // fix sty's incredibly stupid default of always appending ^[[0m
     return message.replace(/\x1B\[0m$/, '');
   }
 

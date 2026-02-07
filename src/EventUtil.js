@@ -1,6 +1,6 @@
 'use strict';
 
-const sty = require('sty');
+const ansi = require('./Ansi');
 
 /**
  * Helper methods for colored output during input-events
@@ -12,7 +12,7 @@ class EventUtil {
    * @return {function (string)}
    */
   static genWrite(socket) {
-    return string => socket.write(sty.parse(string));
+    return string => socket.write(ansi.parse(string));
   }
 
   /**
@@ -21,7 +21,7 @@ class EventUtil {
    * @return {function (string)}
    */
   static genSay(socket) {
-    return string => socket.write(sty.parse(string + '\r\n'));
+    return string => socket.write(ansi.parse(string + '\r\n'));
   }
 }
 
