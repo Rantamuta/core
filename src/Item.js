@@ -1,6 +1,6 @@
 'use strict';
 
-const uuid = require('uuid/v4');
+const { randomUUID } = require('crypto');
 
 const GameEntity = require('./GameEntity');
 const ItemType = require('./ItemType');
@@ -68,7 +68,7 @@ class Item extends GameEntity {
       this.type = item.type || ItemType.OBJECT;
     }
 
-    this.uuid        = item.uuid || uuid();
+    this.uuid        = item.uuid || randomUUID();
     this.closeable   = item.closeable || item.closed || item.locked || false;
     this.closed      = item.closed || false;
     this.locked      = item.locked || false;
