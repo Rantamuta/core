@@ -21,7 +21,13 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [x] CI installs via `npm ci`.
 * [x] CI currently runs on Node 22.
 * [x] Remove or update legacy `.travis.yml` (still targets Node 10).
-* [ ] Add a lint step or remove unused lint configs (`.eslintrc`, `.jshintrc`) to avoid confusion.
+* [ ] Upgrade linting to be usable locally and in CI (ESLint + Prettier) with fix scripts.
+  * Scope: remove legacy `.eslintrc`/`.jshintrc` first; start from a clean default ESLint/Prettier baseline.
+  * Scope: add `npm run lint` plus `npm run lint:fix` (auto-fix) for local use.
+  * Scope: add Prettier with `npm run format` and `npm run format:check` (or equivalent).
+  * Scope: lint `src/`, `test/`, and root JS entry files without changing exports.
+  * Scope: add `.git-blame-ignore-revs` for mechanical-only commits.
+  * Scope: wire CI to run lint/format checks only after formatting fixes land (avoid a failing baseline).
 
 #### Dependencies & Security Hygiene
 
