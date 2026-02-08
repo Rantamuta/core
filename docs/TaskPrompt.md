@@ -125,6 +125,7 @@ STOP for human review.
 
 ## Phase 5 — Implement the change
 After approval:
+- First step: MUST update the selected README checklist item to `[x]` (unless the approver explicitly defers it).
 - Implement the planned change in minimal commits (one logical change per commit).
 - Ensure:
   - `npm test` passes
