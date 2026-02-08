@@ -51,7 +51,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 #### Documentation
 
 * [x] README states “pure maintenance upgrade” intent.
-* [ ] Document supported Node versions (22 now, 18/22 during transition).
+* [ ] Document supported Node versions (22 now).
 * [ ] Document core‑only scope, extension points, and public API surface (Config, Logger, BundleManager, EntityLoader, GameServer).
 * [ ] Document sharp edges and failure modes (Config load order, BundleManager exit paths, EventManager detach behavior).
 * [ ] Establish a lightweight changelog policy for maintenance releases (record user-visible changes and dependency/security actions).
