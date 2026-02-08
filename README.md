@@ -42,7 +42,6 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 
 * [x] `main` points to `index.js` (require‑dir export surface preserved).
 * [x] Entry point remains CommonJS and stable.
-* [ ] Fix `.npmignore` to include `README.md` (currently only `README.mkd` is whitelisted).
 * [ ] Add an explicit `files` whitelist in `package.json` (or equivalent) to ensure publish contents are correct and stable.
 * [ ] Document that `require-dir('./src/')` exposes all `src/*` modules as public API.
 * [ ] Remove npm packaging artifacts and references (e.g., `.npmignore`, `npm pack`, publish‑focused docs) since this repo is not distributed as an npm package.
