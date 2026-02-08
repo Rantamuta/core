@@ -4,6 +4,42 @@
 
 The engine entrypoint uses `require-dir('./src/')`, which means every module under `src/` is part of the public API surface and should be treated as stable for downstream consumers.
 
+## Core-only scope and extension points
+
+### Who this is for
+
+This section is for downstream game repo maintainers, bundle authors, and automated agents working on maintenance tasks. It summarizes how the core engine is intended to be extended without implying changes to the public API surface.
+
+### Core-only scope
+
+This repository is the core engine only. It is designed to be extended by downstream repos through bundles, custom modules, and configuration, rather than by modifying core internals.
+
+### Extension points and public API surfaces
+
+The entrypoint exports every module under `src/`, so all of these surfaces are public API. The table below highlights the most common extension seams and how downstream repos typically integrate with them.
+
+| Surface | What it does | How downstream repos extend it | Integration point | Stability notes |
+| --- | --- | --- | --- | --- |
+| Config | Loads and exposes configuration data used by core systems. | Provide config files and call `Config.load` during boot, then read via `Config.get`. | `src/config.js` (`Config.load`, `Config.get`) | Public API; ensure config load order is respected. |
+| Logger | Shared logging facade used across the engine. | Configure transports/levels via config or initialization wiring at boot. | `src/logger.js` | Public API; avoid reaching into logger internals. |
+| BundleManager | Discovers and loads bundles (areas, entities, commands, behaviors, quests, input events). | Add bundles to the bundle path; register bundles during boot. | `src/bundles/BundleManager.js` | Public API; bundle loading error paths are documented below. |
+| EntityLoader | Constructs entities from bundle definitions and scripts. | Provide entity data/scripts in bundles; register loader behavior where needed. | `src/entities/EntityLoader.js` | Public API; loader validation behavior should be treated as stable. |
+| GameServer | Coordinates lifecycle and runtime startup/shutdown. | Hook into lifecycle events and register systems/bundles during boot. | `src/GameServer.js` | Public API; do not depend on private internals. |
+
+### Minimal integration path (downstream repo)
+
+1. Provide configuration files and call `Config.load` early in your boot sequence. (See Config load order below.)
+2. Configure logging (transports/levels) before starting core systems.
+3. Register bundle paths and load bundles via `BundleManager` during boot.
+4. Ensure entity data/scripts are available to `EntityLoader` through bundles.
+5. Use `GameServer` lifecycle hooks to wire startup/shutdown and system registration.
+
+### What this document does not guarantee
+
+- It does not change or redefine the export surface; `require-dir('./src/')` remains the contract.
+- It does not guarantee behavior for private helpers or internal module structure not documented here.
+- It does not imply compatibility with external forks beyond the public API stability policy.
+
 ## Sharp edges and failure modes
 
 ### Config load order
