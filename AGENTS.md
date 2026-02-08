@@ -81,6 +81,7 @@ Every PR must include:
 - What changed and why
 - How it was validated (tests, manual steps)
 - Risks and rollback plan if applicable
+- Changelog entry updates per `docs/CHANGELOG_POLICY.md` and `CHANGELOG.md` when changes are user-visible, dependency/security-related, or represent intentional drifts from RanvierMUD behavior.
 
 ## Escalation rule for uncertainty
 
