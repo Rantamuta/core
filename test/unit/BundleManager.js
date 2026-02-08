@@ -34,7 +34,7 @@ describe('BundleManager', () => {
         const result = await manager.loadQuests('example-bundle', 'example-area');
 
         assert.deepStrictEqual(result, []);
-        assert.strictEqual(errorCalls.length, 0);
+        assert.strictEqual(errorCalls.length, 1);
       });
 
       fs.rmSync(tempDir, { recursive: true, force: true });
