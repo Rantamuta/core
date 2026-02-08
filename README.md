@@ -45,6 +45,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [ ] Fix `.npmignore` to include `README.md` (currently only `README.mkd` is whitelisted).
 * [ ] Add an explicit `files` whitelist in `package.json` (or equivalent) to ensure publish contents are correct and stable.
 * [ ] Document that `require-dir('./src/')` exposes all `src/*` modules as public API.
+* [ ] Remove npm packaging artifacts and references (e.g., `.npmignore`, `npm pack`, publish‑focused docs) since this repo is not distributed as an npm package.
 
 #### CI & Quality Gates
 
@@ -52,7 +53,6 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [x] Unit tests exist in `test/unit` for utility modules.
 * [ ] Add targeted tests for core subsystems (BundleManager, EntityLoader, registries, GameServer events).
 * [ ] Add coverage reporting/thresholds in CI (current CI runs tests only).
-* [ ] Add a lightweight `npm pack` smoke step to ensure publish artifacts are correct.
 
 #### Documentation
 
