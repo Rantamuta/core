@@ -48,7 +48,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 #### CI & Quality Gates
 
 * [x] Unit test framework present (mocha) with coverage tooling (c8).
-* [x] Unit tests exist in `test/unit` for utility modules.
+* [x] Unit tests exist in `test/tests` for utility modules.
 * [ ] Add targeted tests for core subsystems (BundleManager, EntityLoader, registries, GameServer events).
 * [ ] Add coverage reporting/thresholds in CI (current CI runs tests only).
 

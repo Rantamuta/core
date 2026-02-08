@@ -28,20 +28,28 @@ describe('BundleManager', () => {
           makeQuestKey: () => 'unused'
         }
       };
-      const errorCalls = [];
-      const originalError = Logger.error;
-      Logger.error = (...args) => errorCalls.push(args);
 
-      try {
+      await withStubbedLoggerError(async errorCalls => {
         const manager = new BundleManager(tempDir, state);
         const result = await manager.loadQuests('example-bundle', 'example-area');
 
         assert.deepStrictEqual(result, []);
         assert.strictEqual(errorCalls.length, 0);
-      } finally {
-        Logger.error = originalError;
-        fs.rmSync(tempDir, { recursive: true, force: true });
-      }
+      });
+
+      fs.rmSync(tempDir, { recursive: true, force: true });
     });
   });
 });
+
+async function withStubbedLoggerError(run) {
+  const errorCalls = [];
+  const originalError = Logger.error;
+  Logger.error = (...args) => errorCalls.push(args);
+
+  try {
+    await run(errorCalls);
+  } finally {
+    Logger.error = originalError;
+  }
+}
