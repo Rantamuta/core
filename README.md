@@ -1,12 +1,12 @@
-# Ranvire Engine ("`core`")
+# Rantamuta Engine ("`core`")
 
-Actual core engine code for [Ranvire](https://github.com/Ranvire) game engine which is a maintenance and stewardship fork of  [RanvierMUD](https://ranviermud.com).
+Actual core engine code for [Rantamuta](https://github.com/Rantamuta) game engine which is a maintenance and stewardship fork of  [RanvierMUD](https://ranviermud.com).
 
 The 1.0 release is intended to be a **pure maintenance upgrade**: updating the runtime to modern Node.js, adding CI via GitHub Actions, fixing long-standing crashes and sharp edges, and restoring a reliable out-of-the-box experience. There is no engine redesign and no intentional change to the core architecture.
 
 ## 1.0 Maintenance Checklist (core)
 
-This checklist is scoped to the `Ranvire/core` engine only. It focuses on a **pure maintenance upgrade**: modern Node.js compatibility, CI, dependency hygiene, and sharp‑edge fixes. There is no redesign, no API‑breaking changes, and no assumptions about `ranviermud`, datasources, or bundles.
+This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **pure maintenance upgrade**: modern Node.js compatibility, CI, dependency hygiene, and sharp‑edge fixes. There is no redesign, no API‑breaking changes, and no assumptions about `ranviermud`, datasources, or bundles.
 
 ### Modernization
 
