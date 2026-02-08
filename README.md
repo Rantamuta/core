@@ -43,7 +43,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [x] `main` points to `index.js` (require‑dir export surface preserved).
 * [x] Entry point remains CommonJS and stable.
 * [x] Document in `docs/NOTES.md` that `require-dir('./src/')` exposes all `src/*` modules as public API.
-* [ ] Remove npm packaging artifacts and references (e.g., `.npmignore`, `npm pack`, publish‑focused docs) since this repo is not distributed as an npm package.
+* [x] Remove npm packaging artifacts and references (e.g., `.npmignore`, `npm pack`, publish‑focused docs) since this repo is not distributed as an npm package.
 
 #### CI & Quality Gates
 
