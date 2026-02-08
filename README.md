@@ -20,7 +20,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [x] GitHub Actions CI present.
 * [x] CI installs via `npm ci`.
 * [x] CI currently runs on Node 22.
-* [ ] Remove or update legacy `.travis.yml` (still targets Node 10).
+* [x] Remove or update legacy `.travis.yml` (still targets Node 10).
 * [ ] Add a lint step or remove unused lint configs (`.eslintrc`, `.jshintrc`) to avoid confusion.
 
 #### Dependencies & Security Hygiene
