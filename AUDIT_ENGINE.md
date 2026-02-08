@@ -1,16 +1,15 @@
 # Ranvier Engine Audit (Phase 0)
 
 ## Current state summary
-- **Package**: `ranvier` v3.0.6, MIT licensed, published from the repo `github:ranviermud/core`.【F:package.json†L2-L11】
+- **Package**: `ranvier` v3.0.6, MIT licensed, maintained in the repo `github:ranviermud/core`.【F:package.json†L2-L11】
 - **Entrypoint/build**: CommonJS only (`main: index.js`), which re-exports *every module* under `src/` using `require-dir`. There is no `exports` map, and no build step in `scripts`.【F:package.json†L12-L21】【F:index.js†L1-L3】
-- **Publish surface**: No `files` whitelist or `publishConfig`; npm will publish the whole package by default (subject to `.npmignore` if present).【F:package.json†L1-L40】
 - **Testing**: `npm test` uses Mocha + NYC and runs tests recursively under `test/`. No CI currently configured.【F:package.json†L13-L20】
 - **Lockfile**: `package-lock.json` is lockfile v1, which ties this repo to npm v6-era behaviors by default.【F:package-lock.json†L1-L6】
 
 ## Exported API surface (public vs internal)
 
 **Public (implicit):**
-- Because `index.js` exports `require-dir('./src/')`, **every file in `src/` becomes part of the public API** for consumers requiring `ranvier` (e.g., `require('ranvier').GameServer`).【F:index.js†L1-L3】
+- Because `index.js` exports `require-dir('./src/')`, **every file in `src/` becomes part of the public API** for downstream consumers (e.g., `require('ranvier').GameServer`), independent of npm publishing. 【F:index.js†L1-L3】
 - This implies the public surface includes (non-exhaustive but representative core runtime types):
   - **Game server / lifecycle**: `GameServer`, `EventManager`, `EventUtil`, `Logger`, `Config`.【F:src/GameServer.js†L1-L1】【F:src/EventManager.js†L1-L1】【F:src/EventUtil.js†L1-L1】【F:src/Logger.js†L1-L1】【F:src/Config.js†L1-L1】
   - **Bundle system**: `BundleManager`, `EntityLoader`, `EntityLoaderRegistry`, `DataSourceRegistry`.【F:src/BundleManager.js†L1-L1】【F:src/EntityLoader.js†L1-L1】【F:src/EntityLoaderRegistry.js†L1-L1】【F:src/DataSourceRegistry.js†L1-L1】
@@ -69,6 +68,6 @@ These are the minimum behavioral contracts to keep stable while modernizing:
 - **Rollback**: Revert to previous dependency versions; tests identify regressions.
 
 ### Stage 3 — Downstream integration guidance (optional)
-- Provide documentation for downstream repos: dependency pinning, npm scoped publish strategy, and recommended Node/npm versions.
+- Provide documentation for downstream repos: dependency pinning and recommended Node/npm versions.
 - **Checkpoint**: Documented workflow for game repos to adopt the fork.
 - **Rollback**: Documentation-only.
