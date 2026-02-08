@@ -43,7 +43,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [x] `main` points to `index.js` (require‑dir export surface preserved).
 * [x] Entry point remains CommonJS and stable.
 * [ ] Add an explicit `files` whitelist in `package.json` (or equivalent) to ensure publish contents are correct and stable.
-* [ ] Document that `require-dir('./src/')` exposes all `src/*` modules as public API.
+* [x] Document in `docs/NOTES.md` that `require-dir('./src/')` exposes all `src/*` modules as public API.
 * [ ] Remove npm packaging artifacts and references (e.g., `.npmignore`, `npm pack`, publish‑focused docs) since this repo is not distributed as an npm package.
 
 #### CI & Quality Gates
@@ -58,9 +58,9 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [x] README states “pure maintenance upgrade” intent.
 * [x] Supported Node versions: Node 22 LTS (see `engines.node` and `.nvmrc`).
 * [x] Document supported Node versions (22 now).
-* [ ] Document core‑only scope, extension points, and public API surface (Config, Logger, BundleManager, EntityLoader, GameServer).
-* [ ] Document sharp edges and failure modes (Config load order, BundleManager exit paths, EventManager detach behavior).
-* [ ] Establish a lightweight changelog policy for maintenance releases (record user-visible changes and dependency/security actions).
+* [ ] Document in `docs/NOTES.md` the core‑only scope, extension points, and public API surface (Config, Logger, BundleManager, EntityLoader, GameServer).
+* [ ] Document in `docs/NOTES.md` sharp edges and failure modes (Config load order, BundleManager exit paths, EventManager detach behavior).
+* [ ] Establish in `docs/NOTES.md` a lightweight changelog policy for maintenance releases (record user-visible changes and dependency/security actions).
   * Scope: dependency upgrades/removals, runtime/CI changes, compatibility-impacting fixes, and removals of debugging hooks.
   * Format can be minimal (single `CHANGELOG.md` or “changelog entries in PR description”), but it must be consistent.
 
