@@ -36,7 +36,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
     * `--trace-warnings`
     * inspector-based debugging (`node --inspect` / DevTools workflow)
 
-* [ ] `glob` / `inflight` (and similar): removed inflight by upgrading mocha to latest and overriding `glob` to latest.
+* [x] `glob` / `inflight` (and similar): removed inflight by upgrading mocha to latest and overriding `glob` to latest.
 
 * [ ] Add non-blocking `npm audit` reporting in CI (artifact or summary).
 
