@@ -8,7 +8,8 @@ const Data = require('../../src/Data');
 describe('Data', () => {
   describe('parseFile', () => {
     it('includes action and full path when file is missing', () => {
-      const missingPath = path.join(os.tmpdir(), 'data-missing-file.json');
+      const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'data-missing-'));
+      const missingPath = path.join(tempDir, 'data-missing-file.json');
       assert.throws(() => {
         Data.parseFile(missingPath);
       }, error => {
@@ -37,7 +38,8 @@ describe('Data', () => {
 
   describe('saveFile', () => {
     it('includes action and full path when file is missing', () => {
-      const missingPath = path.join(os.tmpdir(), 'data-missing-save.json');
+      const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'data-missing-save-'));
+      const missingPath = path.join(tempDir, 'data-missing-save.json');
       assert.throws(() => {
         Data.saveFile(missingPath, { example: true });
       }, error => {
