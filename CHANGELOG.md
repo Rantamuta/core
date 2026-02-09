@@ -4,6 +4,20 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+### CI audit reporting
+
+- Summary:
+  - CI now runs a non-blocking `npm audit` and uploads the JSON report as a workflow artifact.
+- Why:
+  - Provide visibility into dependency vulnerabilities without failing the build.
+- Impact:
+  - No runtime impact; CI now publishes an audit report artifact for each run.
+- Migration/Action:
+  - None.
+- References:
+  - PR: #26  Add non-blocking CI dependency audit artifact
+- Timestamp: 2026.02.09 14:43
+
 ### Logger pretty errors warning
 
 - Summary:

@@ -38,7 +38,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 
 * [x] `glob` / `inflight` (and similar): removed inflight by upgrading mocha to latest and overriding `glob` to latest.
 
-* [ ] Add non-blocking `npm audit` reporting in CI (artifact or summary).
+* [x] Add non-blocking `npm audit` reporting in CI (artifact or summary).
 
 #### Packaging & Distribution
 
