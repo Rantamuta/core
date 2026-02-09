@@ -6,9 +6,30 @@ Actual core engine code for [Rantamuta](https://github.com/Rantamuta) game engin
 
 The 1.0 release is intended to be a **pure maintenance upgrade**: updating the runtime to modern Node.js, adding CI via GitHub Actions, fixing long-standing crashes and sharp edges, and restoring a reliable out-of-the-box experience. There is no engine redesign and no intentional change to the core architecture.
 
-## 1.0 Maintenance Checklist (core)
+## Support and Testing
 
-This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **pure maintenance upgrade**: modern Node.js compatibility, CI, dependency hygiene, and sharp‑edge fixes. There is no redesign, no API‑breaking changes, and no assumptions about `ranviermud`, datasources, or bundles.
+Node 22 LTS is the supported runtime (see `engines.node` and `.nvmrc`).
+
+Install dependencies with `npm ci` and run tests with `npm test`.
+
+CI (GitHub Actions) runs on Node 22, installs with `npm ci`, runs `npm test`, and publishes a non-blocking `npm audit` report.
+
+## Version lineage and compatibility
+
+Rantamuta `v1.0.0` is a maintenance fork of RanvierMUD, cut at RanvierMUD `v3.0.6`.
+
+At the time of the fork, Rantamuta `v1.0.0` is intended to be **behaviorally compatible** with the RanvierMUD `3.0.6` engine, with the primary differences being modernization work (Node.js 22 support, CI updates, dependency hygiene, and clearer error handling).
+
+From `v1.0.0` onward, Rantamuta will evolve independently. Future releases may diverge in behavior while preserving backwards compatibility where practical.
+
+<details>
+<summary> Release checklist </summary>
+
+## 1.0 Maintenance Checklist
+
+This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **pure maintenance upgrade**: modern Node.js compatibility, CI, dependency hygiene, and sharp-edge fixes. There is no redesign, no API-breaking changes, and no assumptions about `ranviermud`, datasources, or bundles.
+
+The tasks in this checklist describe the work required to bring the RanvierMUD core engine at version **v3.0.6** to a **behaviorally equivalent**, modernized state released as **Rantamuta v1.0.0**.
 
 ### Modernization
 
@@ -74,6 +95,8 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [x] Add bundle/area/entity context to warnings for missing scripts or invalid entity data, only if trivial context addition without changing control flow. Otherwise, cross off this item.
 * [x] Guard `Config.get` against being called before `Config.load` (clear error or safe fallback).
 * [x] Improve error messages in `Data.saveFile`/`Data.parseFile` with full path and action context.
+
+</details>
 
 ## Developing
 

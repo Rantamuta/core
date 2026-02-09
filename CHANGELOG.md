@@ -4,6 +4,22 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+No changes.
+
+## Rantamuta v1.0.0 — Salpausselkä
+
+**The Salpausselkä Release**
+
+Salpausselkä refers to a series of prominent glacial ridges found only in Finland, formed at the end of the last Ice Age. They mark a stable boundary where movement slowed, pressure settled, and the landscape took on its lasting shape.
+
+This release serves a similar role for Rantamuta: a stable baseline where behavior is preserved, modernization is complete, and future evolution can proceed on solid ground.
+
+This release is the initial stable release of the Rantamuta core engine.
+
+Rantamuta `v1.0.0` is based on the RanvierMUD engine at version `3.0.6` and is intended to preserve equivalent runtime behavior at the point of the fork, with modernization changes only.
+
+Future releases may diverge in behavior as the Rantamuta project evolves.
+
 ### BundleManager hard-exit removal
 
 - Summary:
@@ -101,7 +117,7 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 - Migration/Action:
   - None.
 - References:
-  - PR: pending
+  - Commit: 19fe39e
 - Timestamp: 2026.02.10 12:00
 
 ### Config pre-load guard
@@ -114,6 +130,8 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
   - Callers invoking `Config.get` before `Config.load` now receive a clear error instead of a generic runtime failure.
 - Migration/Action:
   - Ensure `Config.load` is called before any `Config.get` usage.
+- References:
+  - Commit: 8e298cc
 - Timestamp: 2026.02.09 09:30
 
 ### Remove `sty` dependency

@@ -1,12 +1,15 @@
 {
-  "name": "ranvier",
+  "name": "rantamuta-core",
   "description": "MUD game engine",
-  "homepage": "https://ranviermud.com",
-  "bugs": "https://github.com/ranviermud/core/issues",
+  "homepage": "https://github.com/Rantamuta",
+  "bugs": "https://github.com/Rantamuta/core/issues",
   "license": "MIT",
-  "author": "Shawn Biddle (http://shawnbiddle.com)",
-  "version": "3.0.6",
-  "repository": "github:ranviermud/core",
+  "author": "RanvierMUD project",
+  "maintainers": [
+    "Rendall Koski <https://rendall.dev>"
+  ],
+  "version": "1.0.0",
+  "repository": "github:Rantamuta/core",
   "engines": {
     "node": ">= 22"
   },
