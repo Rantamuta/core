@@ -42,7 +42,7 @@ During the Node LTS uplift:
 ## Runtime compatibility policy
 
 - Target runtime: Node 22 LTS.
-- CI should run on Node 18 and Node 22 during transition.
+- CI should run on Node 22.
 - CommonJS remains supported and is the default module system.
 
 ## Package manager and lockfile policy
@@ -61,7 +61,7 @@ During the Node LTS uplift:
 
 Before upgrading runtime dependencies or making behavioral changes:
 
-- Add CI (GitHub Actions) on Node 18 and Node 22.
+- Add CI (GitHub Actions) on Node 22.
 - Ensure a minimal deterministic test suite exists for:
   - GameServer lifecycle events
   - BundleManager loading semantics

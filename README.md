@@ -67,7 +67,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 
 #### Stability & Error Handling
 
-* [ ] Replace `process.exit(0)` in `BundleManager` error paths with thrown errors or non-zero exit codes (library should not hard-exit).
+* [x] Replace `process.exit(0)` in `BundleManager` error paths with thrown errors or non-zero exit codes (library should not hard-exit).
 * [x] Log loader errors in `loadQuests` instead of swallowing them silently.
 * [x] Surface `loadQuests` loader exceptions instead of ignoring `fetchAll()` errors that can mask quest data issues.
 * [x] Validate `loadInputEvents` exports with clearer errors that identify the bundle and event name when `event` is not a function.

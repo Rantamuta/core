@@ -4,6 +4,22 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+### BundleManager hard-exit removal
+
+- Summary:
+  - Removed `process.exit(0)` calls from `BundleManager` error paths and replaced them with thrown errors that surface to the caller.
+- Why:
+  - `process.exit(0)` incorrectly signaled successful startup on bundle or area hydration failures and made the core engine unsafe to consume as a library. `0` incorrectly signals _no error_ and the consumer, not the dependency library, properly determines exit.
+- Impact:
+  - Bundle and area load failures now cause bundle loading to fail via a thrown error instead of terminating the process directly.
+  - Downstream wrappers are responsible for handling the error and setting an appropriate exit code.
+- Migration/Action:
+  - Wrappers invoking `BundleManager.loadBundles` should ensure failures are caught and result in a non-zero process exit.
+  - No action is required for callers that already allow startup failures to crash the process.
+- References:
+  - PR: #29 Replace `process.exit(0)` in `BundleManager` with thrown errors
+- Timestamp: 2026.02.10 16:20
+
 ### Bundle warning context
 
 - Summary:

@@ -2,21 +2,21 @@
 'use strict';
 
 const fs = require('fs'),
-    path = require('path'),
-    Data = require('./Data'),
-    Area = require('./Area'),
-    Command = require('./Command'),
-    CommandType = require('./CommandType'),
-    Item = require('./Item'),
-    Npc = require('./Npc'),
-    QuestGoal = require('./QuestGoal'),
-    QuestReward = require('./QuestReward'),
-    Room = require('./Room'),
-    Skill = require('./Skill'),
-    SkillType = require('./SkillType'),
-    Helpfile = require('./Helpfile'),
-    Logger = require('./Logger')
-;
+  path = require('path'),
+  Data = require('./Data'),
+  Area = require('./Area'),
+  Command = require('./Command'),
+  CommandType = require('./CommandType'),
+  Item = require('./Item'),
+  Npc = require('./Npc'),
+  QuestGoal = require('./QuestGoal'),
+  QuestReward = require('./QuestReward'),
+  Room = require('./Room'),
+  Skill = require('./Skill'),
+  SkillType = require('./SkillType'),
+  Helpfile = require('./Helpfile'),
+  Logger = require('./Logger')
+  ;
 
 const { AttributeFormula } = require('./Attribute');
 
@@ -64,7 +64,7 @@ class BundleManager {
       this.state.AttributeFactory.validateAttributes();
     } catch (err) {
       Logger.error(err.message);
-      process.exit(0);
+      throw new Error('Attribute validation failed during bundle loading', { cause: err });
     }
 
     Logger.verbose('ENDLOAD: BUNDLES');
@@ -80,7 +80,7 @@ class BundleManager {
         area.hydrate(this.state);
       } catch (err) {
         Logger.error(err.message);
-        process.exit(0);
+        throw new Error(`Error hydrating area [${areaRef}] during bundle loading`, { cause: err });
       }
       this.state.AreaManager.addArea(area);
     }
@@ -284,11 +284,11 @@ class BundleManager {
     Logger.verbose(`\t\tLOAD: Quests...`);
     definition.quests = await this.loadQuests(bundle, areaName);
     Logger.verbose(`\t\tLOAD: Items...`);
-    definition.items  = await this.loadEntities(bundle, areaName, 'items', this.state.ItemFactory);
+    definition.items = await this.loadEntities(bundle, areaName, 'items', this.state.ItemFactory);
     Logger.verbose(`\t\tLOAD: NPCs...`);
-    definition.npcs   = await this.loadEntities(bundle, areaName, 'npcs', this.state.MobFactory);
+    definition.npcs = await this.loadEntities(bundle, areaName, 'npcs', this.state.MobFactory);
     Logger.verbose(`\t\tLOAD: Rooms...`);
-    definition.rooms  = await this.loadEntities(bundle, areaName, 'rooms', this.state.RoomFactory);
+    definition.rooms = await this.loadEntities(bundle, areaName, 'rooms', this.state.RoomFactory);
     Logger.verbose('\t\tDone.');
 
     for (const npcRef of definition.npcs) {
@@ -386,7 +386,7 @@ class BundleManager {
     loader.setArea(areaName);
     let quests = [];
     try {
-       quests = await loader.fetchAll();
+      quests = await loader.fetchAll();
     } catch (err) {
       Logger.error(`\t\t\tError loading quests [${bundle}:${areaName}]`, err);
       throw new Error(`Error loading quests [${bundle}:${areaName}]`, { cause: err });
