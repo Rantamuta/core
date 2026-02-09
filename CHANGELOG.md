@@ -4,7 +4,7 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
-### Drift / Modernization
+### Config pre-load guard
 - Summary:
   - Added an explicit pre-load guard for `Config.get` with a dedicated error type.
 - Why:
@@ -15,6 +15,8 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
   - Ensure `Config.load` is called before any `Config.get` usage.
 - References:
   - None.
+- Timestamp:
+  - 2026.02.09 09:30
 
 ### Drift / Modernization
 - Summary:
