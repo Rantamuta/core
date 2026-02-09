@@ -4,6 +4,20 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+### Input event validation errors
+
+- Summary:
+  - `BundleManager.loadInputEvents` now includes the invalid export type in its error message when `event` is not a function.
+- Why:
+  - Improves diagnostics by making it clear what the loader actually received.
+- Impact:
+  - Only the error string changes; invalid input events still throw.
+- Migration/Action:
+  - None.
+- References:
+  - PR: pending
+- Timestamp: 2026.02.09 14:56
+
 ### CI audit reporting
 
 - Summary:

@@ -70,7 +70,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [ ] Replace `process.exit(0)` in `BundleManager` error paths with thrown errors or non-zero exit codes (library should not hard-exit).
 * [x] Log loader errors in `loadQuests` instead of swallowing them silently.
 * [x] Surface `loadQuests` loader exceptions instead of ignoring `fetchAll()` errors that can mask quest data issues.
-* [ ] Validate `loadInputEvents` exports with clearer errors that identify the bundle and event name when `event` is not a function.
+* [x] Validate `loadInputEvents` exports with clearer errors that identify the bundle and event name when `event` is not a function.
 * [ ] Add bundle/area/entity context to warnings for missing scripts or invalid entity data, only if trivial context addition without changing control flow. Otherwise, cross off this item.
 * [x] Guard `Config.get` against being called before `Config.load` (clear error or safe fallback).
 * [x] Improve error messages in `Data.saveFile`/`Data.parseFile` with full path and action context.
