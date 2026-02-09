@@ -15,7 +15,7 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 - Migration/Action:
   - None.
 - References:
-  - PR: pending
+  - PR: #27 Validate `loadInputEvents` with clearer errors
 - Timestamp: 2026.02.09 14:56
 
 ### CI audit reporting
