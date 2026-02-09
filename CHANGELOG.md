@@ -4,6 +4,19 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+### Quest loader error surfacing
+- Summary:
+  - `BundleManager.loadQuests` now surfaces loader failures instead of returning a silent empty list.
+- Why:
+  - Avoids masking quest data errors during bundle loading so failures are actionable.
+- Impact:
+  - Bundle load will fail fast if quest loaders throw; downstream loaders must handle or fix invalid quest data.
+- Migration/Action:
+  - Ensure quest loader data is valid; handle thrown errors where bundle loading is invoked if needed.
+- References:
+  - PR: Surface quest loader failures from BundleManager.loadQuests #21
+- Timestamp: 2026.02.09 07:38
+
 ### Data file error context
 - Summary:
   - Added action-specific error messages for `Data.parseFile` and `Data.saveFile` that include full file paths.

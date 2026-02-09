@@ -382,6 +382,7 @@ class BundleManager {
        quests = await loader.fetchAll();
     } catch (err) {
       Logger.error(`\t\t\tError loading quests [${bundle}:${areaName}]`, err);
+      throw new Error(`Error loading quests [${bundle}:${areaName}]`, { cause: err });
     }
 
     return quests.map(quest => {

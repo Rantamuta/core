@@ -8,7 +8,7 @@ const Logger = require('../../src/Logger');
 
 describe('BundleManager', () => {
   describe('loadQuests', () => {
-    it('logs loader errors and returns an empty list', async () => {
+    it('surfaces loader errors from fetchAll', async () => {
       const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bundle-manager-'));
       const loader = {
         setBundle: () => {},
@@ -31,9 +31,19 @@ describe('BundleManager', () => {
 
       await withStubbedLoggerError(async errorCalls => {
         const manager = new BundleManager(tempDir, state);
-        const result = await manager.loadQuests('example-bundle', 'example-area');
 
-        assert.deepStrictEqual(result, []);
+        await assert.rejects(
+          () => manager.loadQuests('example-bundle', 'example-area'),
+          error => {
+            assert.strictEqual(
+              error.message,
+              'Error loading quests [example-bundle:example-area]'
+            );
+            assert.ok(error.cause);
+            assert.strictEqual(error.cause.message, 'boom');
+            return true;
+          }
+        );
         assert.strictEqual(errorCalls.length, 1);
       });
 
