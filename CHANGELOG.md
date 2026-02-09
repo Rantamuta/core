@@ -13,19 +13,15 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
   - Callers invoking `Config.get` before `Config.load` now receive a clear error instead of a generic runtime failure.
 - Migration/Action:
   - Ensure `Config.load` is called before any `Config.get` usage.
-- References:
-  - None.
-- Timestamp:
-  - 2026.02.09 09:30
+- Timestamp: 2026.02.09 09:30
 
-### Drift / Modernization
+### Remove `sty` dependency
 - Summary:
   - Replaced RanvierMUD's `sty` dependency with a homegrown color tag parser.
 - Why:
-  - Reduce dependency surface and align color parsing with engine-specific needs.
+  - `sty` is no longer supported and has long-standing, critical security issues. DIY parser `Ansi.js` added to reduce dependency surface and align color parsing with engine-specific needs.
 - Impact:
   - Downstream code that relied on `sty` behaviors should use the core color tag parser instead.
 - Migration/Action:
   - Update downstream logging or formatting to use the core color tag format where applicable.
-- References:
-  - None.
+- Timestamp: 2026.02.08 17:30
