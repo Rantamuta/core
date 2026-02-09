@@ -85,39 +85,87 @@ If Atomic:
 
 ---
 
-## Phase 2 — Plan (least intrusive)
+## Phase 2 — Plan (least intrusive, mechanically specific)
+
 - Propose the least intrusive plan that satisfies the invariant.
-- Break the plan into ordered steps.
-- For each step:
-  - files touched
-  - expected behavior impact: none | guarded | potential
-  - verification command(s)
+- The plan MUST be concrete enough that another maintainer could implement it without interpretation.
+
+Structure (mandatory):
+
+### 2.1 Edit inventory (no prose)
+List EVERY intended code touch explicitly.
+For each item:
+- file path
+- exact symbol(s) to be edited (function, class, method, constant)
+- nature of change: add | modify | remove
+
+If a file or symbol is not listed here, it must NOT be edited later.
+
+### 2.2 Ordered execution steps
+Provide an ordered list of steps (minimum 6, maximum 12).
+For EACH step, specify:
+- files touched (must match the edit inventory)
+- exact action (what is written, moved, or guarded)
+- expected behavior impact:
+  - none (pure refactor or test scaffolding)
+  - guarded (new behavior behind a condition)
+  - potential (externally observable change)
+- exact verification command(s) to run after this step
+- what observable signal confirms success (test name, output change, error message, etc.)
+
+Avoid vague verbs (e.g. “refactor”, “fix”, “handle”) unless paired with a concrete edit target.
+
+### 2.3 Negative and non-goal coverage
+Explicitly list:
+- at least one negative scenario the plan must correctly reject or error on
+- at least one closely related behavior that must NOT change
+
+### 2.4 Rollback plan
+- Describe how to revert the change safely if a regression is discovered.
+- Include the minimal set of commits or files that would be reverted.
 
 Verification rules:
 - Prefer `npm test` and `npm run ci:local`.
 - Verification MUST reflect how this repo is actually consumed.
 - Do NOT use `npm pack` unless this repository is explicitly intended for npm publication as part of the approved task.
-
-Include a rollback plan.
-
 ---
 
 ## Phase 3 — Pre-mortem
 - List the top 3 plausible failure modes or accidental behavior changes.
 - For each, explain how the plan and tests detect or prevent it.
 
+The following implementation phases MUST adhere strictly to this plan unless a deviation is explicitly approved.
+
 STOP for human review after Phases 0–3.
 
 ---
 
-## Phase 4 — Implement tests/tooling only
+## Phase 4 — Test-driven lock-in (MANDATORY RED)
+
 After approval:
-- Implement ONLY tests, CI, or tooling needed to lock in current behavior.
-- Do NOT implement functional changes yet.
-- Ensure:
-  - `npm test` passes
-  - `npm run ci:local` passes
-- If required to run tests, you MAY install the pinned Node version (prefer Volta, else `.nvmrc`) and must report what you installed and why.
+
+### Phase 4A — Red (change-driving tests only)
+- Implement ONLY tests that encode the invariant and the new intended behavior.
+- Do NOT implement functional or production code changes.
+- Run `npm test`.
+
+Requirements:
+- At least one new test MUST FAIL.
+- The failure MUST be:
+  - an assertion or expectation failure, not a crash
+  - directly tied to the invariant being enforced
+- Report:
+  - failing test name(s)
+  - exact failure message(s)
+  - a brief statement explaining why this failure is correct and expected
+
+### Phase 4B — Characterization or scaffolding (optional)
+If necessary to proceed safely:
+- Add tests, CI adjustments, or tooling that characterize existing behavior.
+- These tests MUST PASS.
+- They MUST NOT eliminate the failing test from Phase 4A.
+
+Do NOT implement functional changes in this phase.
 
 STOP for human review.
 
