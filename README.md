@@ -76,7 +76,7 @@ This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **
 * [ ] Surface invalid help entries as errors (or provide an opt-in strict mode) instead of warning-only skips.
 * [ ] Add bundle/area/entity context to warnings for missing scripts or invalid entity data.
 * [x] Guard `Config.get` against being called before `Config.load` (clear error or safe fallback).
-* [ ] Improve error messages in `Data.saveFile`/`Data.parseFile` with full path and action context.
+* [x] Improve error messages in `Data.saveFile`/`Data.parseFile` with full path and action context.
 * [ ] Detect missing loader registry entries (`areas`, `help`, etc.) early with explicit errors.
 * [ ] Document recommended Node diagnostics for development debugging (replace “long async stacks” approach):
   * `--trace-uncaught`

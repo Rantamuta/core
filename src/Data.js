@@ -21,7 +21,7 @@ class Data {
    */
   static parseFile(filepath) {
     if (!fs.existsSync(filepath)) {
-      throw new Error(`File [${filepath}] does not exist!`);
+      throw new Error(`Unable to parse file [${filepath}]: file does not exist.`);
     }
 
     const contents = fs.readFileSync(fs.realpathSync(filepath)).toString('utf8');
@@ -33,7 +33,7 @@ class Data {
 
     const ext = path.extname(filepath);
     if (!(ext in parsers)) {
-      throw new Error(`File [${filepath}] does not have a valid parser!`);
+      throw new Error(`Unable to parse file [${filepath}]: no parser for extension '${ext}'.`);
     }
 
     return parsers[ext](contents);
@@ -47,7 +47,7 @@ class Data {
    */
   static saveFile(filepath, data, callback) {
     if (!fs.existsSync(filepath)) {
-      throw new Error(`File [${filepath}] does not exist!`);
+      throw new Error(`Unable to save file [${filepath}]: file does not exist.`);
     }
 
     const serializers = {
@@ -61,7 +61,7 @@ class Data {
 
     const ext = path.extname(filepath);
     if (!(ext in serializers)) {
-      throw new Error(`File [${filepath}] does not have a valid serializer!`);
+      throw new Error(`Unable to save file [${filepath}]: no serializer for extension '${ext}'.`);
     }
 
     const dataToWrite = serializers[ext](data);

@@ -4,6 +4,19 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+### Data file error context
+- Summary:
+  - Added action-specific error messages for `Data.parseFile` and `Data.saveFile` that include full file paths.
+- Why:
+  - Improves diagnostics for missing files or unsupported extensions during data load/save operations.
+- Impact:
+  - Users will see clearer error messages that distinguish parse vs. save failures.
+- Migration/Action:
+  - None.
+- References:
+  - PR: pending
+- Timestamp: 2026.02.10 12:00
+
 ### Config pre-load guard
 - Summary:
   - Added an explicit pre-load guard for `Config.get` with a dedicated error type.
