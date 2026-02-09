@@ -25,11 +25,13 @@ Add or update a changelog entry when a change is:
 ## Required entry fields (per release or grouped change set)
 
 Each changelog entry must include:
+
 - **Summary:** short description of what changed.
 - **Why:** motivation or rationale (especially for drifts/modernizations).
 - **Impact:** who is affected and how (compatibility or operational impact).
 - **Migration/Action:** required steps for downstream users, or “None.”
 - **References:** relevant issues/PRs or commit identifiers if applicable.
+- **Timestamp:** the *current* date and time in the format YYYY.MM.DD hh:mm
 
 ## Drift/modernization documentation
 
