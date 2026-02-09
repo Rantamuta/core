@@ -4,7 +4,22 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+### Logger pretty errors warning
+
+- Summary:
+  - `Logger.enablePrettyErrors` now warns once that long async stacks are no longer enabled and points to `docs/DEBUGGING_DIAGNOSTICS.md`.
+- Why:
+  - `longjohn` is being divested due to compatibility and performance risk, while preserving API compatibility.
+- Impact:
+  - Callers will see a one-time warning; pretty-error formatting still runs without long async stack instrumentation.
+- Migration/Action:
+  - Use the documented Node diagnostics flags and Inspector workflow for debugging.
+- References:
+  - PR: #25 "Remove `longjohn`"
+- Timestamp: 2026.02.09 14:29
+
 ### Quest loader error surfacing
+
 - Summary:
   - `BundleManager.loadQuests` now surfaces loader failures instead of returning a silent empty list.
 - Why:
@@ -18,6 +33,7 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 - Timestamp: 2026.02.09 07:38
 
 ### Data file error context
+
 - Summary:
   - Added action-specific error messages for `Data.parseFile` and `Data.saveFile` that include full file paths.
 - Why:
@@ -31,6 +47,7 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 - Timestamp: 2026.02.10 12:00
 
 ### Config pre-load guard
+
 - Summary:
   - Added an explicit pre-load guard for `Config.get` with a dedicated error type.
 - Why:
@@ -42,6 +59,7 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 - Timestamp: 2026.02.09 09:30
 
 ### Remove `sty` dependency
+
 - Summary:
   - Replaced RanvierMUD's `sty` dependency with a homegrown color tag parser.
 - Why:

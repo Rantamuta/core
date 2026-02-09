@@ -9,6 +9,7 @@ winston.add(winston.transports.Console, {
 });
 
 const logExt = '.log';
+let prettyErrorsWarningShown = false;
 
 /**
  * Wrapper around Winston
@@ -67,7 +68,13 @@ class Logger {
   }
 
   static enablePrettyErrors() {
-    const longjohn = require('longjohn');
+    if (!prettyErrorsWarningShown) {
+      prettyErrorsWarningShown = true;
+      Logger.warn(
+        'Logger.enablePrettyErrors no longer enables long async stack traces. ' +
+        'See docs/DEBUGGING_DIAGNOSTICS.md for modern debugging options.'
+      );
+    }
     const pe = require('pretty-error').start();
     pe.skipNodeFiles(); // Ignore native node files in stacktrace.
   }
@@ -75,4 +82,3 @@ class Logger {
 }
 
 module.exports = Logger;
-

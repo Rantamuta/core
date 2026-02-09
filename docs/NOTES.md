@@ -42,6 +42,12 @@ The entrypoint exports every module under `src/`, so all of these surfaces are p
 
 ## Sharp edges and failure modes
 
+## Longjohn and pretty-error usage
+
+In core, `longjohn` is only loaded inside `Logger.enablePrettyErrors()` in `src/Logger.js`, and it is not required during default engine load. `longjohn` is side-effect driven (the require installs long async stack trace hooks), while `pretty-error` formats stack output. Based on a downstream repo scan reported by the maintainer (no references to `enablePrettyErrors` or `pretty-error`), this path appears to be unused in the current ecosystem and remains opt-in.
+
+Historically, `longjohn` was installed to provide long async stack traces to aid debugging, and `pretty-error` was installed to format stack traces and runtime errors for readability. Together they provided a more developer-friendly error experience: `longjohn` captured deeper async call chains while `pretty-error` rendered them in a cleaner, colorized format.
+
 ### Config load order
 
 `Config.get` assumes `Config.load` has already been called and will throw if `__cache` is still `null` (because the `in` operator is used against the cache). In practice, any module calling `Config.get` before the boot process loads the configuration will crash with a `TypeError`. Ensure `Config.load` is invoked during startup before any gameplay systems or entities access configuration defaults.
