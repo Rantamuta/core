@@ -25,6 +25,68 @@ From `v1.0.0` onward, Rantamuta will evolve independently. Future releases may d
 <details>
 <summary> Release checklist </summary>
 
+## v1.1 Task list
+
+## 1.1 Maintenance Candidates (core)
+
+These items are intentionally **post-1.0**. They remain within the Rantamuta stewardship model: no redesign, no feature work, no architectural shifts. Scope is limited to robustness, diagnostics, dependency risk reduction, and contract-locking tests.
+
+### Runtime & Tooling
+
+* [ ] Upgrade linting to be usable locally and in CI (ESLint + Prettier) with fix scripts.
+* [ ] Remove legacy `.eslintrc` / `.jshintrc` and establish a clean default ESLint/Prettier baseline.
+* [ ] Add `npm run lint` and `npm run lint:fix` scripts for local use.
+* [ ] Add Prettier with `npm run format` and `npm run format:check`.
+* [ ] Lint `src/`, `test/`, and root JS entry files without changing exports.
+* [ ] Add `.git-blame-ignore-revs` for mechanical-only formatting commits.
+* [ ] Wire CI to run lint/format checks only after formatting fixes land.
+
+### Dependencies & Security Hygiene
+
+* [ ] Narrowed legacy dependency review driven by concrete Node 22 incompatibilities or high-severity advisories.
+* [ ] `winston@2`: decide upgrade or pin with explicit tests defining required logging behavior.
+* [ ] `js-yaml@3`: decide upgrade or pin with YAML compatibility tests covering current engine usage.
+* [ ] `wrap-ansi@2`: decide tolerate, upgrade, or pin if it contributes to install noise or Node incompatibility.
+* [ ] `pretty-error`: decide keep, remove, or pin while preserving error presentation behavior.
+* [ ] `require-dir`: lock in public export behavior with tests; replace only if forced.
+* [ ] Dev-only transitive cleanup (e.g. `glob`, `inflight`) via tooling upgrades where feasible.
+* [ ] Add non-blocking `npm audit` reporting in CI (summary or artifact only).
+
+### CI & Quality Gates
+
+* [ ] Add targeted contract tests for core subsystems (BundleManager, EntityLoader, registries, GameServer events).
+* [ ] Add coverage reporting in CI (visibility first, thresholds optional and deferred).
+
+### Stability & Error Handling
+
+* [ ] Fail fast or surface explicit errors when `loadEntities` encounters invalid data (prefer opt-in strict mode).
+* [ ] Surface missing area or entity scripts as explicit errors or via opt-in strict mode.
+* [ ] Surface invalid help entries as errors or via opt-in strict mode.
+* [ ] Add bundle, area, and entity context to warnings for missing scripts or invalid entity data.
+* [ ] Detect missing loader registry entries (`areas`, `help`, etc.) early with explicit errors (or strict mode).
+* [ ] Improve logging context in selected high-value core error paths without redesign.
+* [ ] Preserve error cause chains when wrapping errors using `Error(..., { cause })` where supported.
+* [ ] Add structured error boundaries in limited engine hotspots that add context and rethrow:
+  * bundle loading paths
+  * command dispatch
+  * event dispatch
+* [ ] Add targeted tests asserting:
+  * wrapped errors preserve original `cause`
+  * core does not import or depend on `longjohn` under default execution
+
+### DX & Maintainability
+
+* [ ] Add unit tests for `DataSourceRegistry.load` and `EntityLoaderRegistry.load` validation rules.
+* [ ] Add unit tests for `EntityLoader` method gating and error messages.
+* [ ] Add tests for `BundleManager.loadBundles(distribute=false)` and `_getLoader` compatibility.
+* [ ] Add tests for `EventManager.attach` / `detach` semantics and the `removeAllListeners` warning edge.
+* [ ] Consolidate bundle path construction in `BundleManager` to reduce string-concat drift.
+* [ ] Document and test async vs sync expectations in loader code paths before changing behavior.
+
+### Documentation & Expectations
+
+* [ ] Document expected synchronous filesystem usage in bundle loading and data utilities so consumers understand design intent.
+
 ## 1.0 Maintenance Checklist
 
 This checklist is scoped to the `Rantamuta/core` engine only. It focuses on a **pure maintenance upgrade**: modern Node.js compatibility, CI, dependency hygiene, and sharp-edge fixes. There is no redesign, no API-breaking changes, and no assumptions about `ranviermud`, datasources, or bundles.
