@@ -87,6 +87,8 @@ These items are intentionally **post-1.0**. They remain within the Rantamuta ste
 
 ## 1.1 Strict Mode
 
+**Strict mode forbids overrides.** If any later bundle registers a key that is already registered, startup fails (throws) with an error identifying the registry, key, and both bundles. Strict mode is configured as a boolean with a default of `false` in `ranvier.json` or `ranvier.conf.js`
+
 * [ ] Implement configurable *strict mode*
 
 ## 1.0 Maintenance Checklist
