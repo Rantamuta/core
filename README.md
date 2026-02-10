@@ -89,7 +89,25 @@ These items are intentionally **post-1.0**. They remain within the Rantamuta ste
 
 **Strict mode forbids overrides.** If any later bundle registers a key that is already registered, startup fails (throws) with an error identifying the registry, key, and both bundles. Strict mode is configured as a boolean with a default of `false` in `ranvier.json` or `ranvier.conf.js`
 
-* [ ] Implement configurable *strict mode*
+* [ ] Add a `strictMode` boolean to engine config resolution (`Config` defaults + `ranvier.json`/`ranvier.conf.js` merge) with default `false`, and thread the resolved value into `BundleManager` load flow without changing non-strict startup behavior.
+* [ ] In `BundleManager`, add bundle-load registration tracking that records first writer metadata per registry key (registry name, key, bundle, optional source path) for every map-based registry populated during bundle loading.
+* [ ] Define and use one duplicate handler in `BundleManager` (e.g., `_registerOrThrow`) that receives `{ registry, key, bundle, source }` and either records first writer or detects a later duplicate before the existing `add`/`set` call runs.
+* [ ] Apply duplicate detection to command registrations in `loadCommands` for both `command.name` and each alias key written to `CommandManager.commands`.
+* [ ] Apply duplicate detection to channel registrations in `loadChannels` for both `channel.name` and each alias key written to `ChannelManager.channels`.
+* [ ] Apply duplicate detection to skill/spell registrations in `loadSkills` for keys written to `SkillManager.skills` and `SpellManager.skills` (skill `id`).
+* [ ] Apply duplicate detection to effect registrations in `loadEffects` for keys written to `EffectFactory.effects`, so strict mode throws instead of allowing the current silent duplicate-ignore path.
+* [ ] Apply duplicate detection to attribute registrations in `loadAttributes` for keys written to `AttributeFactory.attributes` (`attribute.name`).
+* [ ] Apply duplicate detection to quest goal and quest reward registrations in `loadQuestGoals` / `loadQuestRewards` for keys written to `QuestGoalManager` and `QuestRewardManager`.
+* [ ] Apply duplicate detection to helpfile registrations in `loadHelp` for keys written to `HelpManager.helps` (`help.name`).
+* [ ] Apply duplicate detection to quest definition registrations in `loadQuests` for keys written to `QuestFactory.quests` (`area:id`).
+* [ ] Apply duplicate detection to area/item/npc/room definition registrations in `loadArea` / `loadEntities` for keys written to `AreaFactory.entities` and `EntityFactory.entities` (`areaName` and `area:id`).
+* [ ] When `strictMode === true`, throw immediately on first duplicate with a clear startup error message including: registry name, duplicated key, first bundle, second bundle; wrap with loading context only if existing error-wrapping conventions require it.
+* [ ] When `strictMode === false`, keep current behavior exactly: last-write-wins registries still override, `EffectFactory.add` duplicate-ignore remains unchanged, and no new warnings or startup failures are introduced.
+* [ ] Add focused tests covering strict on/off behavior for each registry group above, including assertion that strict mode failure stops startup and the thrown message includes registry, key, and conflicting bundle names.
+
+### Stopping conditions
+
+v1.1 is complete and releasable when strict mode can be toggled from config, duplicates across all listed bundle-loaded map registries fail fast with the required error details in strict mode, non-strict mode remains behaviorally unchanged, and automated tests cover both paths.
 
 ## 1.0 Maintenance Checklist
 
