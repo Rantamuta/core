@@ -25,7 +25,7 @@ From `v1.0.0` onward, Rantamuta will evolve independently. Future releases may d
 <details>
 <summary> Release checklist </summary>
 
-## v1.1 Task list
+## v1.2 Task list
 
 These items are intentionally **post-1.0**. They remain within the Rantamuta stewardship model: no redesign, no feature work, no architectural shifts. Scope is limited to robustness, diagnostics, dependency risk reduction, and contract-locking tests.
 
@@ -84,6 +84,10 @@ These items are intentionally **post-1.0**. They remain within the Rantamuta ste
 ### Documentation & Expectations
 
 * [ ] Document expected synchronous filesystem usage in bundle loading and data utilities so consumers understand design intent.
+
+## 1.1 Strict Mode
+
+* [ ] Implement configurable *strict mode*
 
 ## 1.0 Maintenance Checklist
 
