@@ -74,7 +74,7 @@ These items are intentionally **post-1.0**. They remain within the Rantamuta ste
 
 ### DX & Maintainability
 
-* [ ] Add unit tests for `DataSourceRegistry.load` and `EntityLoaderRegistry.load` validation rules.
+* [x] Add unit tests for `DataSourceRegistry.load` and `EntityLoaderRegistry.load` validation rules.
 * [ ] Add unit tests for `EntityLoader` method gating and error messages.
 * [ ] Add tests for `BundleManager.loadBundles(distribute=false)` and `_getLoader` compatibility.
 * [ ] Add tests for `EventManager.attach` / `detach` semantics and the `removeAllListeners` warning edge.
