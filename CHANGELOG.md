@@ -4,7 +4,20 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
-No changes.
+### Bundle load order respects config
+
+- Summary:
+  - `BundleManager.loadBundles` now loads bundles in the order listed by `Config.get('bundles')` and warns when a configured bundle is missing or not a directory.
+- Why:
+  - Ensures bundle loading is deterministic and matches explicit configuration.
+- Impact:
+  - Bundle load order follows config order instead of filesystem order.
+  - Missing or invalid bundle paths now emit warnings.
+- Migration/Action:
+  - Ensure configured bundle names map to on-disk bundle directories and are ordered intentionally.
+- References:
+  - PR: #35 Load bundles in config order
+- Timestamp: 2026.02.10 18:00
 
 ## Rantamuta v1.0.0 — Salpausselkä
 

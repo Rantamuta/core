@@ -45,15 +45,28 @@ class BundleManager {
   async loadBundles(distribute = true) {
     Logger.verbose('LOAD: BUNDLES');
 
-    const bundles = fs.readdirSync(this.bundlesPath);
-    for (const bundle of bundles) {
-      const bundlePath = this.bundlesPath + bundle;
-      if (fs.statSync(bundlePath).isFile() || bundle === '.' || bundle === '..') {
+    const configuredBundles = this.state.Config.get('bundles', []);
+    const seenBundles = new Set();
+
+    for (const bundle of configuredBundles) {
+      if (seenBundles.has(bundle)) {
+        continue;
+      }
+      seenBundles.add(bundle);
+
+      if (bundle === '.' || bundle === '..') {
+        Logger.warn(`Bundle [${bundle}] is not a valid bundle name; skipping.`);
         continue;
       }
 
-      // only load bundles the user has configured to be loaded
-      if (this.state.Config.get('bundles', []).indexOf(bundle) === -1) {
+      const bundlePath = this.bundlesPath + bundle;
+      if (!fs.existsSync(bundlePath)) {
+        Logger.warn(`Bundle [${bundle}] is configured but missing at path [${bundlePath}]`);
+        continue;
+      }
+
+      if (!fs.statSync(bundlePath).isDirectory()) {
+        Logger.warn(`Bundle [${bundle}] is configured but not a directory at path [${bundlePath}]`);
         continue;
       }
 
