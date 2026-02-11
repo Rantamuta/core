@@ -37,6 +37,8 @@ class BundleManager {
     this.bundlesPath = path;
     this.areas = [];
     this.loaderRegistry = this.state.EntityLoaderRegistry;
+    this.strictMode = false;
+    this.bundleRegistrations = new Map();
   }
 
   /**
@@ -44,6 +46,9 @@ class BundleManager {
    */
   async loadBundles(distribute = true) {
     Logger.verbose('LOAD: BUNDLES');
+
+    this.strictMode = !!this.state.Config.get('strictMode', false);
+    this.bundleRegistrations.clear();
 
     const configuredBundles = this.state.Config.get('bundles', []);
     const seenBundles = new Set();
@@ -152,6 +157,8 @@ class BundleManager {
       let goalImport = QuestGoal.isPrototypeOf(loader) ? loader : loader(srcPath);
       Logger.verbose(`\t\t${goalName}`);
 
+      this._registerOrThrow('QuestGoalManager', goalName, bundle, goalPath);
+
       this.state.QuestGoalManager.set(goalName, goalImport);
     }
 
@@ -172,6 +179,8 @@ class BundleManager {
       const loader = require(rewardPath);
       let rewardImport = QuestReward.isPrototypeOf(loader) ? loader : loader(srcPath);
       Logger.verbose(`\t\t${rewardName}`);
+
+      this._registerOrThrow('QuestRewardManager', rewardName, bundle, rewardPath);
 
       this.state.QuestRewardManager.set(rewardName, rewardImport);
     }
@@ -214,6 +223,8 @@ class BundleManager {
       }
 
       Logger.verbose(`\t\t-> ${attribute.name}`);
+
+      this._registerOrThrow('AttributeFactory.attributes', attribute.name, bundle, attributesFile);
 
       this.state.AttributeFactory.add(attribute.name, attribute.base, formula, attribute.metadata);
     }
@@ -271,6 +282,8 @@ class BundleManager {
    * @param {string} areaPath
    */
   async loadArea(bundle, areaName, manifest) {
+    this._registerOrThrow('AreaFactory.entities', areaName, bundle);
+
     const definition = {
       bundle,
       manifest,
@@ -356,6 +369,7 @@ class BundleManager {
 
     return entities.map(entity => {
       const entityRef = factory.createEntityRef(areaName, entity.id);
+      this._registerOrThrow(`${factory.constructor.name}.entities`, entityRef, bundle);
       factory.setDefinition(entityRef, entity);
       if (entity.script) {
         const entityScript = `${scriptPath}/${type}/${entity.script}.js`;
@@ -407,8 +421,10 @@ class BundleManager {
 
     return quests.map(quest => {
       Logger.verbose(`\t\t\tLoading Quest [${areaName}:${quest.id}]`);
+      const qid = this.state.QuestFactory.makeQuestKey(areaName, quest.id);
+      this._registerOrThrow('QuestFactory.quests', qid, bundle);
       this.state.QuestFactory.add(areaName, quest.id, quest);
-      return this.state.QuestFactory.makeQuestKey(areaName, quest.id);
+      return qid;
     });
   }
 
@@ -428,6 +444,12 @@ class BundleManager {
 
       const commandName = path.basename(commandFile, path.extname(commandFile));
       const command = this.createCommand(commandPath, commandName, bundle);
+      this._registerOrThrow('CommandManager.commands', command.name, bundle, commandPath);
+      if (Array.isArray(command.aliases)) {
+        for (const alias of command.aliases) {
+          this._registerOrThrow('CommandManager.commands', alias, bundle, commandPath);
+        }
+      }
       this.state.CommandManager.add(command);
     }
 
@@ -469,6 +491,12 @@ class BundleManager {
     }
 
     channels.forEach(channel => {
+      this._registerOrThrow('ChannelManager.channels', channel.name, bundle, channelsFile);
+      if (Array.isArray(channel.aliases)) {
+        for (const alias of channel.aliases) {
+          this._registerOrThrow('ChannelManager.channels', alias, bundle, channelsFile);
+        }
+      }
       channel.bundle = bundle;
       this.state.ChannelManager.add(channel);
     });
@@ -498,8 +526,14 @@ class BundleManager {
           records[helpName]
         );
 
+        this._registerOrThrow('HelpManager.helps', hfile.name, bundle);
+
         this.state.HelpManager.add(hfile);
       } catch (e) {
+        if (this.strictMode && e.message.includes('Strict mode duplicate registration')) {
+          throw e;
+        }
+
         Logger.warn(`\t\t${e.message}`);
         continue;
       }
@@ -600,6 +634,7 @@ class BundleManager {
       const loader = require(effectPath);
 
       Logger.verbose(`\t\t${effectName}`);
+      this._registerOrThrow('EffectFactory.effects', effectName, bundle, effectPath);
       this.state.EffectFactory.add(effectName, this._getLoader(loader, srcPath), this.state);
     }
 
@@ -631,8 +666,10 @@ class BundleManager {
       const skill = new Skill(skillName, skillImport, this.state);
 
       if (skill.type === SkillType.SKILL) {
+        this._registerOrThrow('SkillManager.skills', skill.id, bundle, skillPath);
         this.state.SkillManager.add(skill);
       } else {
+        this._registerOrThrow('SpellManager.skills', skill.id, bundle, skillPath);
         this.state.SpellManager.add(skill);
       }
     }
@@ -691,6 +728,33 @@ class BundleManager {
    */
   _getAreaScriptPath(bundle, areaName) {
     return `${this.bundlesPath}/${bundle}/areas/${areaName}/scripts`;
+  }
+
+  _registerOrThrow(registry, key, bundle, source = null) {
+    if (!this.strictMode) {
+      return;
+    }
+
+    if (!this.bundleRegistrations.has(registry)) {
+      this.bundleRegistrations.set(registry, new Map());
+    }
+
+    const registryKeys = this.bundleRegistrations.get(registry);
+    const existing = registryKeys.get(key);
+
+    if (!existing) {
+      registryKeys.set(key, { bundle, source });
+      return;
+    }
+
+    if (existing.bundle === bundle) {
+      return;
+    }
+
+    throw new Error(
+      `Strict mode duplicate registration in registry [${registry}] for key [${key}] ` +
+      `from bundle [${bundle}] previously registered by bundle [${existing.bundle}]`
+    );
   }
 }
 

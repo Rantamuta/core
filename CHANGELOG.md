@@ -4,6 +4,23 @@ All entries follow `docs/CHANGELOG_POLICY.md`.
 
 ## Unreleased
 
+### Strict mode duplicate registration enforcement
+
+- Summary:
+  - Added configurable strict mode (`strictMode`, default `false`) so bundle loading fails fast when a later bundle attempts to register an already-registered key in map-based registries.
+- Why:
+  - Makes override collisions explicit and actionable during startup instead of silently overriding (or silently ignoring, depending on registry), matching the v1.1 strict mode contract.
+- Impact:
+  - With `strictMode: true`, startup now throws on duplicate bundle registrations and the error identifies the registry, duplicated key, and conflicting bundles.
+  - With `strictMode: false`, existing behavior is preserved (override semantics and effect duplicate-ignore behavior remain unchanged).
+- Migration/Action:
+  - Optional: set `strictMode: true` in `ranvier.json` or `ranvier.conf.js` to enforce duplicate rejection.
+  - If enabling strict mode on existing games, resolve bundle key collisions surfaced during startup.
+- References:
+  - PR: feat: implement v1.1 strict mode duplicate protection
+  - Commits: 5eae842, 36d87e5
+- Timestamp: 2026.02.11 00:10
+
 ### Bundle load order respects config
 
 - Summary:
