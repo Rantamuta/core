@@ -17,35 +17,31 @@ export = Room;
  * @extends GameEntity
  */
 declare class Room extends GameEntity {
-    constructor(area: unknown, def: unknown);
-    def: unknown;
-    area: unknown;
-    defaultItems: unknown;
-    defaultNpcs: unknown;
-    metadata: unknown;
-    script: unknown;
+    constructor(area: Area, def: RoomDefinition);
+    def: RoomDefinition;
+    area: Area;
+    defaultItems: SpawnReference[];
+    defaultNpcs: SpawnReference[];
+    metadata: Record<string, unknown>;
+    script?: string | null;
     behaviors: Map<string, unknown>;
-    coordinates: {
-        x: unknown;
-        y: unknown;
-        z: unknown;
-    };
-    description: unknown;
+    coordinates: RoomCoordinates | null;
+    description: string;
     entityReference: string;
-    exits: unknown;
-    id: unknown;
-    title: unknown;
-    doors: Map<string, unknown>;
-    defaultDoors: unknown;
-    items: Set<unknown>;
-    npcs: Set<unknown>;
-    players: Set<unknown>;
+    exits: RoomExit[];
+    id: string | number;
+    title: string;
+    doors: Map<string, RoomDoor>;
+    defaultDoors?: Record<string, RoomDoor>;
+    items: Set<Item>;
+    npcs: Set<Npc>;
+    players: Set<Player>;
     /**
      * spawnedNpcs keeps track of NPCs even when they leave the room for the purposes of respawn. So if we spawn NPC A
      * into the room and it walks away we don't want to respawn the NPC until it's killed or otherwise removed from the
      * area
      */
-    spawnedNpcs: Set<unknown>;
+    spawnedNpcs: Set<Npc>;
     /**
      * @param {Player} player
      */
@@ -78,23 +74,24 @@ declare class Room extends GameEntity {
      * @return {Array<{ id: string, direction: string, inferred: boolean, room: Room= }>}
      */
     getExits(): Array<{
-        id: string;
+        id: string | number;
+        roomId?: string;
         direction: string;
         inferred: boolean;
-        room: Room;
+        [key: string]: unknown;
     }>;
     /**
      * Get the exit definition of a room's exit by searching the exit name
      * @param {string} exitName exit name search
      * @return {false|Object}
      */
-    findExit(exitName: string): false | unknown;
+    findExit(exitName: string): false | RoomExit;
     /**
      * Get the exit definition of a room's exit to a given room
      * @param {Room} nextRoom
      * @return {false|Object}
      */
-    getExitToRoom(nextRoom: Room): false | unknown;
+    getExitToRoom(nextRoom: Room): false | RoomExit;
     /**
      * Check to see if this room has a door preventing movement from `fromRoom` to here
      * @param {Room} fromRoom
@@ -105,11 +102,7 @@ declare class Room extends GameEntity {
      * @param {Room} fromRoom
      * @return {{lockedBy: EntityReference, locked: boolean, closed: boolean}}
      */
-    getDoor(fromRoom: Room): {
-        lockedBy: EntityReference;
-        locked: boolean;
-        closed: boolean;
-    };
+    getDoor(fromRoom: Room | null | undefined): RoomDoor | null | undefined;
     /**
      * Check to see of the door for `fromRoom` is locked
      * @param {Room} fromRoom
@@ -145,17 +138,53 @@ declare class Room extends GameEntity {
      * @return {Npc}
      */
     spawnNpc(state: GameState, entityRef: string): Npc;
-    hydrate(state: unknown): void;
+    hydrate(state: GameState): void;
     /**
      * Used by Broadcaster
      * @return {Array<Character>}
      */
-    getBroadcastTargets(): Array<Character>;
+    getBroadcastTargets(): Array<Room | Character>;
 }
+import Area = require("./Area");
 import GameEntity = require("./GameEntity");
 import Character = require("./Character");
 import Item = require("./Item");
 import Npc = require("./Npc");
 import Player = require("./Player");
-type EntityReference = unknown;
 import GameState = require("./GameState");
+
+type EntityReference = string;
+type SpawnReference = string | {
+    id: string;
+};
+type RoomCoordinates = {
+    x: number;
+    y: number;
+    z: number;
+};
+type RoomDoor = {
+    lockedBy?: EntityReference;
+    locked: boolean;
+    closed: boolean;
+    [key: string]: unknown;
+};
+type RoomExit = {
+    id?: string | number;
+    roomId?: string;
+    direction: string;
+    inferred?: boolean;
+    [key: string]: unknown;
+};
+type RoomDefinition = {
+    id: string | number;
+    title: string;
+    description: string;
+    coordinates?: [number, number, number];
+    items?: SpawnReference[];
+    npcs?: SpawnReference[];
+    metadata?: Record<string, unknown>;
+    script?: string | null;
+    behaviors?: Record<string, unknown>;
+    exits?: RoomExit[];
+    doors?: Record<string, RoomDoor>;
+};

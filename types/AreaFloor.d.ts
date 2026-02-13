@@ -25,18 +25,18 @@ export = AreaFloor;
  * @property {number} z This floor's z index
  */
 declare class AreaFloor {
-    constructor(z: unknown);
-    z: unknown;
+    constructor(z: number);
+    z: number;
     lowX: number;
     highX: number;
     lowY: number;
     highY: number;
-    map: unknown[];
-    addRoom(x: unknown, y: unknown, room: unknown): void;
+    map: Room[][];
+    addRoom(x: number, y: number, room: Room): void;
     /**
      * @return {Room|boolean}
      */
-    getRoom(x: unknown, y: unknown): Room | boolean;
-    removeRoom(x: unknown, y: unknown): void;
+    getRoom(x: number, y: number): Room | undefined;
+    removeRoom(x: number, y: number): void;
 }
 import Room = require("./Room");

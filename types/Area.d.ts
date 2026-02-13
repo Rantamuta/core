@@ -18,15 +18,15 @@ export = Area;
  * @extends GameEntity
  */
 declare class Area extends GameEntity {
-    constructor(bundle: unknown, name: unknown, manifest: unknown);
-    bundle: unknown;
-    name: unknown;
-    title: unknown;
-    metadata: unknown;
-    rooms: Map<unknown, unknown>;
-    npcs: Set<unknown>;
-    map: Map<unknown, unknown>;
-    script: unknown;
+    constructor(bundle: string | null, name: string, manifest: AreaManifest);
+    bundle: string | null;
+    name: string;
+    title: string;
+    metadata: Record<string, unknown>;
+    rooms: Map<string | number, Room>;
+    npcs: Set<Npc>;
+    map: Map<number, AreaFloor>;
+    script?: string | null;
     behaviors: Map<string, unknown>;
     /**
      * Get ranvier-root-relative path to this area
@@ -42,7 +42,7 @@ declare class Area extends GameEntity {
      * @param {string} id Room id
      * @return {Room|undefined}
      */
-    getRoomById(id: string): Room | undefined;
+    getRoomById(id: string | number): Room | undefined;
     /**
      * @param {Room} room
      * @fires Area#roomAdded
@@ -65,7 +65,7 @@ declare class Area extends GameEntity {
      * @param {number} z
      * @return {Room|boolean}
      */
-    getRoomAtCoordinates(x: number, y: number, z: number): Room | boolean;
+    getRoomAtCoordinates(x: number, y: number, z: number): Room | undefined;
     /**
      * @param {Npc} npc
      */
@@ -85,7 +85,7 @@ declare class Area extends GameEntity {
      * @fires Npc#updateTick
      */
     update(state: GameState): void;
-    hydrate(state: unknown): void;
+    hydrate(state: GameState): void;
     /**
      * Get all possible broadcast targets within an area. This includes all npcs,
      * players, rooms, and the area itself
@@ -94,7 +94,15 @@ declare class Area extends GameEntity {
     getBroadcastTargets(): Array<Broadcastable>;
 }
 import GameEntity = require("./GameEntity");
+import AreaFloor = require("./AreaFloor");
 import Npc = require("./Npc");
 import Room = require("./Room");
 import type { Broadcastable } from "./Broadcastable";
 import GameState = require("./GameState");
+
+type AreaManifest = {
+    title: string;
+    metadata?: Record<string, unknown>;
+    script?: string | null;
+    behaviors?: Record<string, unknown>;
+};
