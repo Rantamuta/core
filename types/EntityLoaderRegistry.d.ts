@@ -18,5 +18,6 @@ type EntityLoaderDefinition = {
 };
 type EntityDataSourceLike = {
     hasData(config: Record<string, unknown>): boolean | Promise<boolean>;
+    // Data source APIs include provider-specific methods.
     [key: string]: unknown;
 };
