@@ -29,7 +29,7 @@ declare class Npc extends Character {
      * @fires Room#npcEnter
      * @fires Npc#enterRoom
      */
-    moveTo(nextRoom: Room, onMoved?: () => unknown): void;
+    moveTo(nextRoom: Room, onMoved?: () => void): void;
     hydrate(state: GameState): void;
 }
 import Character = require("./Character");
