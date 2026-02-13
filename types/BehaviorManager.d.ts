@@ -21,6 +21,7 @@ declare class BehaviorManager {
      * @param {string}   behaviorName
      * @param {Function} listener
      */
+    // Listener argument payloads vary by emitted game event.
     addListener(behaviorName: string, event: string, listener: (...args: unknown[]) => void): void;
 }
 import EventManager = require("./EventManager");
