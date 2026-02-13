@@ -3,7 +3,7 @@ export = EntityFactory;
  * Stores definitions of entities to allow for easy creation/cloning
  */
 declare class EntityFactory {
-    entities: Map<unknown, unknown>;
+    entities: Map<string, EntityDefinition>;
     scripts: BehaviorManager;
     /**
      * Create the key used by the entities and scripts maps
@@ -11,17 +11,17 @@ declare class EntityFactory {
      * @param {number} id
      * @return {string}
      */
-    createEntityRef(area: unknown, id: number): string;
+    createEntityRef(area: string, id: number): string;
     /**
      * @param {string} entityRef
      * @return {Object}
      */
-    getDefinition(entityRef: string): unknown;
+    getDefinition(entityRef: string): EntityDefinition | undefined;
     /**
      * @param {string} entityRef
      * @param {Object} def
      */
-    setDefinition(entityRef: string, def: unknown): void;
+    setDefinition(entityRef: string, def: EntityDefinition): void;
     /**
      * Add an event listener from a script to a specific item
      * @see BehaviorManager::addListener
@@ -29,7 +29,7 @@ declare class EntityFactory {
      * @param {string}   event
      * @param {Function} listener
      */
-    addScriptListener(entityRef: string, event: string, listener: Function): void;
+    addScriptListener(entityRef: string, event: string, listener: (...args: unknown[]) => void): void;
     /**
      * Create a new instance of a given npc definition. Resulting npc will not be held or equipped
      * and will _not_ have its default contents. If you want it to also populate its default contents
@@ -40,7 +40,7 @@ declare class EntityFactory {
      * @param {Class}  Type      Type of entity to instantiate
      * @return {type}
      */
-    createByType(area: Area, entityRef: string, Type: Class): type;
+    createByType<T>(area: Area, entityRef: string, Type: Class<T>): T;
     create(): void;
     /**
      * Clone an existing entity.
@@ -54,5 +54,10 @@ import Area = require("./Area");
 import Item = require("./Item");
 import Npc = require("./Npc");
 import Room = require("./Room");
-type Class = new (...args: unknown[]) => unknown;
-type type = unknown;
+type Class<T> = new (area: Area, def: EntityDefinition) => T;
+type EntityDefinition = {
+    entityReference?: string;
+    area?: Area;
+    id?: string | number;
+    [key: string]: unknown;
+};
