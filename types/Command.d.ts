@@ -45,6 +45,7 @@ declare class Command {
      * @param {string} arg0   The actual command the user typed, useful when checking which alias was used for a command
      * @return {*}
      */
+    // Command implementations define their own return value contract.
     execute(args: string, player: Player, arg0: string): unknown;
 }
 import CommandType = require("./CommandType");
