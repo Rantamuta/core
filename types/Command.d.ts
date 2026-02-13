@@ -23,30 +23,22 @@ declare class Command {
      * @param {string} file File the command comes from
      */
     constructor(bundle: string, name: string, def: {
-        type: {
-            COMMAND: symbol;
-            SKILL: symbol;
-            CHANNEL: symbol;
-            MOVEMENT: symbol;
-        };
-        command: Function;
-        aliases: Array<string>;
-        usage: string;
+        type?: CommandTypeValue;
+        command: CommandHandler;
+        aliases?: string[];
+        usage?: string;
+        requiredRole?: PlayerRole;
+        metadata?: Record<string, unknown>;
     }, file: string);
     bundle: string;
-    type: symbol | {
-        COMMAND: symbol;
-        SKILL: symbol;
-        CHANNEL: symbol;
-        MOVEMENT: symbol;
-    };
+    type: CommandTypeValue;
     name: string;
-    func: Function;
-    aliases: string[];
+    func: CommandHandler;
+    aliases?: string[];
     usage: string;
-    requiredRole: unknown;
+    requiredRole: PlayerRole;
     file: string;
-    metadata: unknown;
+    metadata: Record<string, unknown>;
     /**
      * @param {string} args   A string representing anything after the command itself from what the user typed
      * @param {Player} player Player that executed the command
@@ -55,4 +47,9 @@ declare class Command {
      */
     execute(args: string, player: Player, arg0: string): unknown;
 }
+import CommandType = require("./CommandType");
 import Player = require("./Player");
+import PlayerRoles = require("./PlayerRoles");
+type CommandTypeValue = typeof CommandType[keyof typeof CommandType];
+type PlayerRole = typeof PlayerRoles[keyof typeof PlayerRoles];
+type CommandHandler = (args: string, player: Player, arg0: string) => unknown;
