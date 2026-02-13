@@ -3,12 +3,12 @@ export = RoomManager;
  * Keeps track of all the individual rooms in the game
  */
 declare class RoomManager {
-    rooms: Map<unknown, unknown>;
+    rooms: Map<string, Room>;
     /**
      * @param {string} entityRef
      * @return {Room}
      */
-    getRoom(entityRef: string): Room;
+    getRoom(entityRef: string): Room | undefined;
     /**
      * @param {Room} room
      */
