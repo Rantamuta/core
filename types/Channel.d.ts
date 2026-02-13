@@ -20,23 +20,25 @@ export class Channel {
         name: string;
         audience: ChannelAudience;
         description?: string;
-        minRequiredRole?: number;
-        color?: string;
+        minRequiredRole?: ChannelRole;
+        color?: string | string[];
+        bundle?: string;
+        aliases?: string[];
         formatter?: {
-            sender: Function;
-            target: Function;
+            sender: ChannelSenderFormatter;
+            target: ChannelTargetFormatter;
         };
     });
     name: string;
-    minRequiredRole: unknown;
-    description: string;
-    bundle: unknown;
-    audience: unknown;
-    color: string;
-    aliases: unknown;
+    minRequiredRole: ChannelRole | null;
+    description?: string;
+    bundle: string | null;
+    audience: ChannelAudience;
+    color: string | string[] | null;
+    aliases?: string[];
     formatter: {
-        sender: unknown;
-        target: unknown;
+        sender: ChannelSenderFormatter;
+        target: ChannelTargetFormatter;
     };
     /**
      * @param {GameState} state
@@ -45,7 +47,7 @@ export class Channel {
      * @fires GameEntity#channelReceive
      */
     send(state: GameState, sender: Player, message: string): void;
-    describeSelf(sender: unknown): void;
+    describeSelf(sender: Player): void;
     getUsage(): string;
     /**
      * How to render the message the player just sent to the channel
@@ -55,7 +57,7 @@ export class Channel {
      * @param {Function} colorify
      * @return {string}
      */
-    formatToSender(sender: Player, target: unknown, message: string, colorify: Function): string;
+    formatToSender(sender: Player, target: Player | null, message: string, colorify: ChannelColorify): string;
     /**
      * How to render the message to everyone else
      * E.g., you may want "chat" to say "Playername chats, 'message here'"
@@ -65,8 +67,8 @@ export class Channel {
      * @param {Function} colorify
      * @return {string}
      */
-    formatToReceipient(sender: Player, target: Player, message: string, colorify: Function): string;
-    colorify(message: unknown): unknown;
+    formatToReceipient(sender: Player, target: Player, message: string, colorify: ChannelColorify): string;
+    colorify(message: string): string;
 }
 export class NoPartyError extends Error {
 }
@@ -78,3 +80,7 @@ import ChannelAudience = require("./ChannelAudience");
 import Player = require("./Player");
 import PlayerRoles = require("./PlayerRoles");
 import GameState = require("./GameState");
+type ChannelRole = typeof PlayerRoles[keyof typeof PlayerRoles];
+type ChannelColorify = (message: string) => string;
+type ChannelSenderFormatter = (sender: Player, target: Player | null, message: string, colorify: ChannelColorify) => string;
+type ChannelTargetFormatter = (sender: Player, target: Player, message: string, colorify: ChannelColorify) => string;
