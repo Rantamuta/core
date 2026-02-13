@@ -12,9 +12,9 @@ declare class QuestGoal extends EventEmitter {
      * @param {Player} player
      */
     constructor(quest: Quest, config: object, player: Player);
-    config: unknown;
+    config: Record<string, unknown>;
     quest: Quest;
-    state: {};
+    state: Record<string, unknown>;
     player: Player;
     /**
      * @return {{ percent: number, display: string}}
@@ -28,14 +28,14 @@ declare class QuestGoal extends EventEmitter {
      */
     complete(): void;
     serialize(): {
-        state: {};
+        state: Record<string, unknown>;
         progress: {
             percent: number;
             display: string;
         };
-        config: unknown;
+        config: Record<string, unknown>;
     };
-    hydrate(state: unknown): void;
+    hydrate(state: Record<string, unknown>): void;
 }
 import EventEmitter = require("node:events");
 import Player = require("./Player");
