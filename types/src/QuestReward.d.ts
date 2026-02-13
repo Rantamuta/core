@@ -19,3 +19,5 @@ declare class QuestReward {
      */
     static display(GameState: unknown, quest: unknown, config: unknown, player: unknown): void;
 }
+import Player = require("./Player");
+import Quest = require("./Quest");
