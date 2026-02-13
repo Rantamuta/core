@@ -3,9 +3,9 @@ export = PartyManager;
  * Keeps track of active in game parties and is used to create new parties
  * @extends Set
  */
-declare class PartyManager extends Set<unknown> {
-    constructor(values?: readonly unknown[]);
-    constructor(iterable?: Iterable<unknown>);
+declare class PartyManager extends Set<Party> {
+    constructor(values?: readonly Party[]);
+    constructor(iterable?: Iterable<Party>);
     /**
      * Create a new party from with a given leader
      * @param {Player} leader
