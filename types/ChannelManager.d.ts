@@ -5,12 +5,12 @@ export = ChannelManager;
  * TODO: should probably refactor this to just extend `Map`
  */
 declare class ChannelManager {
-    channels: Map<unknown, unknown>;
+    channels: Map<string, Channel>;
     /**
      * @param {string} name Channel name
      * @return {Channel}
      */
-    get(name: string): Channel;
+    get(name: string): Channel | undefined;
     /**
      * @param {Channel} channel
      */
@@ -23,6 +23,6 @@ declare class ChannelManager {
      * @param {string} search
      * @return {Channel}
      */
-    find(search: string): Channel;
+    find(search: string): Channel | undefined;
 }
 import { Channel } from "./Channel";
