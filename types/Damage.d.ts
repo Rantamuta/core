@@ -14,6 +14,7 @@ declare class Damage {
      * @param {*} [source=null] Where the damage came from: skill, item, room, etc.
      * @property {Object} metadata Extra info about the damage: type, hidden, critical, etc.
      */
+    // `source` is intentionally open-ended (skill, item, room, environmental trigger, etc.).
     constructor(attribute: string, amount: number, attacker?: Character | null, source?: unknown, metadata?: Record<string, unknown>);
     attacker: Character | null;
     attribute: string;
