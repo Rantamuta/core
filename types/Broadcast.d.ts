@@ -12,7 +12,7 @@ declare class Broadcast {
      * @param {?function(target, message): string} formatter=null Function to call to format the
      *   message to each target
      */
-    static at(source: Broadcastable, message?: string, wrapWidth?: number | boolean, useColor?: boolean, formatter?: ((arg0: BroadcastTarget, arg1: string) => string) | null): void;
+    static at(source: Broadcastable, message?: string, wrapWidth?: number | boolean, useColor?: boolean, formatter?: BroadcastFormatter | null): void;
     /**
      * Broadcast.at for all except given list of players
      * @see {@link Broadcast#at}
@@ -23,7 +23,7 @@ declare class Broadcast {
      * @param {boolean} useColor
      * @param {function} formatter
      */
-    static atExcept(source: Broadcastable, message: string, excludes: Array<Player>, wrapWidth: number | boolean, useColor: boolean, formatter: Function): void;
+    static atExcept(source: Broadcastable, message: string, excludes: Player | ReadonlyArray<Player>, wrapWidth?: number | boolean, useColor?: boolean, formatter?: BroadcastFormatter | null): void;
     /**
      * Helper wrapper around Broadcast.at to be used when you're using a formatter
      * @see {@link Broadcast#at}
@@ -33,22 +33,22 @@ declare class Broadcast {
      * @param {number|boolean} wrapWidth
      * @param {boolean} useColor
      */
-    static atFormatted(source: Broadcastable, message: string, formatter: Function, wrapWidth: number | boolean, useColor: boolean): void;
+    static atFormatted(source: Broadcastable, message: string, formatter?: BroadcastFormatter | null, wrapWidth?: number | boolean, useColor?: boolean): void;
     /**
      * `Broadcast.at` with a newline
      * @see {@link Broadcast#at}
      */
-    static sayAt(source: unknown, message: unknown, wrapWidth: unknown, useColor: unknown, formatter: unknown): void;
+    static sayAt(source: Broadcastable, message?: string, wrapWidth?: number | boolean, useColor?: boolean, formatter?: BroadcastFormatter | null): void;
     /**
      * `Broadcast.atExcept` with a newline
      * @see {@link Broadcast#atExcept}
      */
-    static sayAtExcept(source: unknown, message: unknown, excludes: unknown, wrapWidth: unknown, useColor: unknown, formatter: unknown): void;
+    static sayAtExcept(source: Broadcastable, message: string, excludes: Player | ReadonlyArray<Player>, wrapWidth?: number | boolean, useColor?: boolean, formatter?: BroadcastFormatter | null): void;
     /**
      * `Broadcast.atFormatted` with a newline
      * @see {@link Broadcast#atFormatted}
      */
-    static sayAtFormatted(source: unknown, message: unknown, formatter: unknown, wrapWidth: unknown, useColor: unknown): void;
+    static sayAtFormatted(source: Broadcastable, message?: string, formatter?: BroadcastFormatter | null, wrapWidth?: number | boolean, useColor?: boolean): void;
     /**
      * Render the player's prompt including unknown extra prompts
      * @param {Player} player
@@ -56,7 +56,7 @@ declare class Broadcast {
      * @param {number} wrapWidth
      * @param {boolean} useColor
      */
-    static prompt(player: Player, extra: object, wrapWidth: number, useColor: boolean): void;
+    static prompt(player: Player, extra: Record<string, unknown>, wrapWidth: number, useColor: boolean): void;
     /**
      * Generate an ASCII art progress bar
      * @param {number} width Max width
@@ -105,8 +105,9 @@ declare class Broadcast {
      * @return {string}
      * @private
      */
-    private static _fixNewlines;
+    private static _fixNewlines(message: string): string;
     static isBroadcastable(source: unknown): source is Broadcastable;
 }
+type BroadcastFormatter = (target: BroadcastTarget, message: string) => string;
 import type { Broadcastable, BroadcastTarget } from "./Broadcastable";
 import Player = require("./Player");
