@@ -5,7 +5,7 @@ export = AreaFactory;
 declare class AreaFactory extends EntityFactory {
     /**
      * Create a new instance of an area by name. Resulting area will not have
-     * unknown of its contained entities (items, npcs, rooms) hydrated. You will
+     * any of its contained entities (items, npcs, rooms) hydrated. You will
      * need to call `area.hydrate(state)`
      *
      * @param {GameState} state
@@ -17,7 +17,7 @@ declare class AreaFactory extends EntityFactory {
     /**
      * @see AreaFactory#create
      */
-    clone(area: unknown): Area;
+    clone(area: Area): Area;
 }
 import EntityFactory = require("./EntityFactory");
 import Area = require("./Area");
