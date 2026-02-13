@@ -28,6 +28,7 @@ type EntityLoaderConfig = {
 type EntityDataSource = {
     name?: string;
     hasData(config: EntityLoaderConfig): boolean | Promise<boolean>;
+    // Result shapes come from the concrete data source implementation.
     fetchAll?(config: EntityLoaderConfig): unknown;
     fetch?(config: EntityLoaderConfig, id: string | number): unknown;
     replace?(config: EntityLoaderConfig, data: unknown): unknown;
