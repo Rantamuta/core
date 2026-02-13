@@ -106,6 +106,7 @@ declare class Broadcast {
      * @private
      */
     private static _fixNewlines(message: string): string;
+    // Runtime accepts arbitrary input and narrows it via duck-typing.
     static isBroadcastable(source: unknown): source is Broadcastable;
 }
 type BroadcastFormatter = (target: BroadcastTarget, message: string) => string;
