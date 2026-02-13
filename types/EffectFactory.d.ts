@@ -35,6 +35,7 @@ type EffectConfig = {
 import Effect = require("./Effect");
 import EventManager = require("./EventManager");
 import GameState = require("./GameState");
+// Effect listener payloads depend on the specific emitted game event.
 type EffectListenerMap = Record<string, (...args: unknown[]) => void>;
 type EffectFactoryEntry = {
     definition: EffectConfig;
