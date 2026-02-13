@@ -3,11 +3,12 @@ export = ItemManager;
  * Keep track of all items in game
  */
 declare class ItemManager {
-    items: Set<unknown>;
-    add(item: unknown): void;
-    remove(item: unknown): void;
+    items: Set<Item>;
+    add(item: Item): void;
+    remove(item: Item): void;
     /**
      * @fires Item#updateTick
      */
     tickAll(): void;
 }
+import Item = require("./Item");
