@@ -38,4 +38,5 @@ declare class EventManager {
     detach(emitter: EventEmitter, events: string | Iterable<string> | null): void;
 }
 import EventEmitter = require("node:events");
+// Event payloads vary by event name.
 type EventListener = (...args: unknown[]) => void;
