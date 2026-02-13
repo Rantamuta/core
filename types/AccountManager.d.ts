@@ -5,13 +5,13 @@ export = AccountManager;
  * @property {EntityLoader} loader
  */
 declare class AccountManager {
-    accounts: Map<unknown, unknown>;
-    loader: unknown;
+    accounts: Map<string, Account>;
+    loader: null | EntityLoader;
     /**
      * Set the entity loader from which accounts are loaded
      * @param {EntityLoader}
      */
-    setLoader(loader: unknown): void;
+    setLoader(loader: EntityLoader): void;
     /**
      * @param {Account} acc
      */
@@ -28,3 +28,5 @@ declare class AccountManager {
     loadAccount(username: string, force: boolean): Promise<Account>;
 }
 import Account = require("./Account");
+import EntityLoader = require("./EntityLoader");
+
