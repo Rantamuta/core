@@ -56,7 +56,7 @@ declare class Broadcast {
      * @param {number} wrapWidth
      * @param {boolean} useColor
      */
-    static prompt(player: Player, extra: Record<string, unknown>, wrapWidth: number, useColor: boolean): void;
+    static prompt(player: Player, extra?: Record<string, unknown>, wrapWidth?: number | boolean, useColor?: boolean): void;
     /**
      * Generate an ASCII art progress bar
      * @param {number} width Max width

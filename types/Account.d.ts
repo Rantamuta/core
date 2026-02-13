@@ -13,11 +13,11 @@ declare class Account {
      */
     constructor(data: AccountData);
     username: string;
-    characters: Array<string>;
+    characters: Array<AccountCharacter>;
     password: string;
     banned: boolean;
     deleted: boolean;
-    metadata: string;
+    metadata: Record<string, unknown>;
     /**
      * @return {string}
      */
@@ -78,9 +78,14 @@ declare class Account {
 
 interface AccountData {
     username: string;
-    characters: Array<string>;
+    characters: Array<AccountCharacter>;
     password: string;
     banned: boolean;
     deleted: boolean;
-    metadata: string;
+    metadata: Record<string, unknown>;
+}
+
+interface AccountCharacter {
+    username: string;
+    deleted: boolean;
 }

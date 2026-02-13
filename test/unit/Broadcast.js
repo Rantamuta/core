@@ -24,4 +24,25 @@ describe('Broadcast', () => {
     assert.equal(writes.length, 1);
     assert.equal(writes[0], ansi.parse('<red>hi</red>'));
   });
+
+  it('renders prompt when called with only player argument', () => {
+    const writes = [];
+    const player = {
+      prompt: '> ',
+      extraPrompts: new Map(),
+      interpolatePrompt: prompt => prompt,
+      getBroadcastTargets() {
+        return [this];
+      },
+      socket: {
+        _prompted: false,
+        writable: true,
+        write: data => writes.push(data),
+        command: () => {}
+      }
+    };
+
+    assert.doesNotThrow(() => Broadcast.prompt(player));
+    assert.equal(writes.length > 0, true);
+  });
 });

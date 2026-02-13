@@ -15,6 +15,9 @@ const broadcastable: Ranvier.Broadcastable = {
   },
 };
 
+declare const player: InstanceType<typeof Ranvier.Player>;
+Ranvier.Broadcast.prompt(player);
+
 void Ranvier.Account;
 void Ranvier.GameServer;
 void Ranvier.CommandType.COMMAND;
