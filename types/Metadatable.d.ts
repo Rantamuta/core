@@ -6,6 +6,7 @@ export = Metadatable;
  * @return {module:MetadatableFn~Metadatable}
  */
 declare function Metadatable<TBase extends Constructor<HasMetadata>>(parentClass: TBase): TBase & Constructor<MetadatableInstance>;
+// Mixin-compatible constructor signature with unconstrained ctor args.
 type Constructor<T = object> = new (...args: unknown[]) => T;
 type HasMetadata = {
     metadata: Record<string, unknown>;
