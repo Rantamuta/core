@@ -31,7 +31,7 @@ declare class AreaFloor {
     highX: number;
     lowY: number;
     highY: number;
-    map: Room[][];
+    map: Record<number, AreaFloorRow | undefined>;
     addRoom(x: number, y: number, room: Room): void;
     /**
      * @return {Room|boolean}
@@ -39,4 +39,5 @@ declare class AreaFloor {
     getRoom(x: number, y: number): Room | undefined;
     removeRoom(x: number, y: number): void;
 }
+type AreaFloorRow = Array<Room | undefined>;
 import Room = require("./Room");
