@@ -21,6 +21,6 @@ declare class BehaviorManager {
      * @param {string}   behaviorName
      * @param {Function} listener
      */
-    addListener(behaviorName: string, event: string, listener: (...args: unknown[]) => unknown): void;
+    addListener(behaviorName: string, event: string, listener: (...args: unknown[]) => void): void;
 }
 import EventManager = require("./EventManager");
