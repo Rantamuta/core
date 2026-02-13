@@ -11,13 +11,13 @@ declare class Account {
     /**
      * @param {Object} data Account save data
      */
-    constructor(data: unknown);
-    username: unknown;
-    characters: unknown;
-    password: unknown;
-    banned: unknown;
-    deleted: unknown;
-    metadata: unknown;
+    constructor(data: AccountData);
+    username: string;
+    characters: Array<string>;
+    password: string;
+    banned: boolean;
+    deleted: boolean;
+    metadata: string;
     /**
      * @return {string}
      */
@@ -42,7 +42,7 @@ declare class Account {
     /**
      * @param {string} password Unhashed password. Is hashed inside this function
      */
-    setPassword(pass: unknown): void;
+    setPassword(pass: string): void;
     /**
      * @param {string} pass Unhashed password to check against account's password
      * @return {boolean}
@@ -73,5 +73,14 @@ declare class Account {
      *
      * @return {Object}
      */
-    serialize(): unknown;
+    serialize(): AccountData;
+}
+
+interface AccountData {
+    username: string;
+    characters: Array<string>;
+    password: string;
+    banned: boolean;
+    deleted: boolean;
+    metadata: string;
 }
