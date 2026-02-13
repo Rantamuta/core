@@ -56,8 +56,8 @@ declare class Player extends Character {
      * @fires Room#playerEnter
      * @fires Player#enterRoom
      */
-    moveTo(nextRoom: Room, onMoved?: () => unknown): void;
-    save(callback?: unknown): void;
+    moveTo(nextRoom: Room, onMoved?: () => void): void;
+    save(callback?: () => void): void;
     hydrate(state: GameState): void;
 }
 import Account = require("./Account");
