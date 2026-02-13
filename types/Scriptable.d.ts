@@ -11,7 +11,7 @@ type Constructor<T = object> = new (...args: unknown[]) => T;
 type ScriptableBase = {
     behaviors: Map<string, unknown>;
     __pruned?: boolean;
-    emit(name: string, ...args: unknown[]): unknown;
+    emit(name: string, ...args: unknown[]): boolean;
     removeAllListeners(): void;
 };
 type ScriptableInstance = {
