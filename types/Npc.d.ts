@@ -51,5 +51,6 @@ type NpcDefinition = {
     entityReference: string;
     quests?: string[];
     uuid?: string;
+    // NPC definitions include type-specific extension fields from bundles.
     [key: string]: unknown;
 };
