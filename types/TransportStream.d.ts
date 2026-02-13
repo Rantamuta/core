@@ -31,5 +31,5 @@ declare class TransportStream extends EventEmitter {
 }
 import EventEmitter = require("node:events");
 type CloseListenable = {
-    on(event: "close", listener: (_: unknown) => void): unknown;
+    on(event: "close", listener: (_: unknown) => void): void;
 };
