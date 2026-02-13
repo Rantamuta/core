@@ -10,19 +10,19 @@ export = PlayerManager;
  */
 declare class PlayerManager extends EventEmitter {
     constructor();
-    players: Map<unknown, unknown>;
+    players: Map<string, Player>;
     events: EventManager;
-    loader: unknown;
+    loader: EntityLoader | null;
     /**
      * Set the entity loader from which players are loaded
      * @param {EntityLoader}
      */
-    setLoader(loader: unknown): void;
+    setLoader(loader: EntityLoader): void;
     /**
      * @param {string} name
      * @return {Player}
      */
-    getPlayer(name: string): Player;
+    getPlayer(name: string): Player | undefined;
     /**
      * @param {Player} player
      */
@@ -37,12 +37,12 @@ declare class PlayerManager extends EventEmitter {
     /**
      * @return {array}
      */
-    getPlayersAsArray(): unknown[];
+    getPlayersAsArray(): Player[];
     /**
      * @param {Function} fn Filter function
      * @return {array}
      */
-    filter(fn: Function): unknown[];
+    filter(fn: (player: Player) => boolean): Player[];
     /**
      * Load a player for an account
      * @param {GameState} state
@@ -51,7 +51,7 @@ declare class PlayerManager extends EventEmitter {
      * @param {boolean} force true to force reload from storage
      * @return {Player}
      */
-    loadPlayer(state: GameState, account: Account, username: string, force: boolean): Player;
+    loadPlayer(state: GameState, account: Account, username: string, force: boolean): Promise<Player>;
     /**
      * Turn player into a key used by this class's map
      * @param {Player} player
@@ -67,7 +67,7 @@ declare class PlayerManager extends EventEmitter {
      * Save a player
      * @fires Player#save
      */
-    save(player: unknown): Promise<void>;
+    save(player: Player): Promise<void>;
     /**
      * @fires Player#saved
      */
@@ -86,5 +86,6 @@ import EventEmitter = require("node:events");
 import Account = require("./Account");
 import Character = require("./Character");
 import EventManager = require("./EventManager");
+import EntityLoader = require("./EntityLoader");
 import Player = require("./Player");
 import GameState = require("./GameState");
