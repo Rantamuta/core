@@ -24,36 +24,36 @@ export = Item;
  * @extends GameEntity
  */
 declare class Item extends GameEntity {
-    constructor(area: unknown, item: unknown);
-    area: unknown;
-    metadata: unknown;
+    constructor(area: Area | string, item: ItemDefinition);
+    area: Area | string;
+    metadata: Record<string, unknown>;
     behaviors: Map<string, unknown>;
-    defaultItems: unknown;
-    description: unknown;
-    entityReference: unknown;
-    id: unknown;
-    maxItems: unknown;
-    isEquipped: unknown;
-    keywords: unknown;
-    name: unknown;
-    room: unknown;
-    roomDesc: unknown;
-    script: unknown;
-    type: unknown;
-    uuid: unknown;
-    closeable: unknown;
-    closed: unknown;
-    locked: unknown;
-    lockedBy: unknown;
-    carriedBy: unknown;
-    equippedBy: unknown;
+    defaultItems: EntityReference[];
+    description: string;
+    entityReference: EntityReference;
+    id: string | number;
+    maxItems: number;
+    isEquipped: boolean;
+    keywords: string[];
+    name: string;
+    room: Room | null;
+    roomDesc: string;
+    script: string | null;
+    type: ItemTypeValue | string;
+    uuid: string;
+    closeable: boolean;
+    closed: boolean;
+    locked: boolean;
+    lockedBy: EntityReference | null;
+    carriedBy: Character | Item | null;
+    equippedBy: Character | null;
     /**
      * Create an Inventory object from a serialized inventory
      * @param {object} inventory Serialized inventory
      */
-    initializeInventory(inventory: object): void;
-    inventory: Inventory;
-    hasKeyword(keyword: unknown): boolean;
+    initializeInventory(inventory: ConstructorParameters<typeof Inventory>[0] | null | undefined): void;
+    inventory: Inventory | null;
+    hasKeyword(keyword: string): boolean;
     /**
      * Add an item to this item's inventory
      * @param {Item} item
@@ -91,24 +91,50 @@ declare class Item extends GameEntity {
      * Unlock a container-like object
      */
     unlock(): void;
-    hydrate(state: unknown, serialized?: {}): boolean;
+    hydrate(state: GameState, serialized?: Partial<SerializedItem>): boolean | void;
     __hydrated: boolean;
     serialize(): {
-        entityReference: unknown;
-        inventory: {
-            items: unknown[];
-            max: number;
-        };
-        metadata: unknown;
-        description: unknown;
-        keywords: unknown;
-        name: unknown;
-        roomDesc: unknown;
-        closed: unknown;
-        locked: unknown;
-        behaviors: {};
+        entityReference: EntityReference;
+        inventory: ReturnType<Inventory["serialize"]> | null;
+        metadata: Record<string, unknown>;
+        description: string;
+        keywords: string[];
+        name: string;
+        roomDesc: string;
+        closed: boolean;
+        locked: boolean;
+        behaviors: Record<string, unknown>;
     };
 }
 import GameEntity = require("./GameEntity");
 import { Inventory } from "./Inventory";
 import Character = require("./Character");
+import Area = require("./Area");
+import Room = require("./Room");
+import ItemType = require("./ItemType");
+import GameState = require("./GameState");
+type EntityReference = string;
+type ItemTypeValue = typeof ItemType[keyof typeof ItemType];
+type ItemDefinition = {
+    keywords: string[];
+    name: string;
+    id: string | number;
+    metadata?: Record<string, unknown>;
+    behaviors?: Record<string, unknown>;
+    items?: EntityReference[];
+    description?: string;
+    entityReference?: EntityReference;
+    maxItems?: number;
+    inventory?: ConstructorParameters<typeof Inventory>[0] | null;
+    isEquipped?: boolean;
+    room?: Room | null;
+    roomDesc?: string;
+    script?: string | null;
+    type?: ItemTypeValue | string;
+    uuid?: string;
+    closeable?: boolean;
+    closed?: boolean;
+    locked?: boolean;
+    lockedBy?: EntityReference | null;
+};
+type SerializedItem = ReturnType<Item["serialize"]>;
