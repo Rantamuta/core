@@ -5,24 +5,25 @@ export = EventManager;
  * for that event
  */
 declare class EventManager {
-    events: Map<unknown, unknown>;
+    events: Map<string, Set<EventListener>>;
     /**
      * Fetch all listeners for a given event
      * @param {string} name
      * @return {Set}
      */
-    get(name: string): Set<unknown>;
+    get(name: string): Set<EventListener> | undefined;
     /**
      * @param {string}   eventName
      * @param {Function} listener
      */
-    add(eventName: string, listener: Function): void;
+    add(eventName: string, listener: EventListener): void;
     /**
      * Attach all currently added events to the given emitter
      * @param {EventEmitter} emitter
      * @param {Object} config
      */
-    attach(emitter: EventEmitter, config: unknown): void;
+    // `config` is forwarded into listener binding and is intentionally open-ended.
+    attach(emitter: EventEmitter, config?: unknown): void;
     /**
      * Remove all listeners for a given emitter or only those for the given events
      * If no events are given it will remove all listeners from all events defined
@@ -34,6 +35,7 @@ declare class EventManager {
      * @param {EventEmitter}  emitter
      * @param {?string|iterable} events Optional name or list of event names to remove listeners from
      */
-    detach(emitter: EventEmitter, events: (string | Iterable<unknown>) | null): void;
+    detach(emitter: EventEmitter, events: string | Iterable<string> | null): void;
 }
 import EventEmitter = require("node:events");
+type EventListener = (...args: unknown[]) => unknown;
