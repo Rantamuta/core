@@ -17,8 +17,7 @@ declare class Character extends EventEmitter {
     constructor(data: CharacterData);
     name: string;
     inventory: Inventory | null;
-    // Kept broad until Npc/Player declarations are tightened to the same slot->Item map shape.
-    equipment: Map<unknown, unknown>;
+    equipment: Map<string, Item>;
     combatants: Set<Character>;
     combatData: {
         lag?: number | null;
