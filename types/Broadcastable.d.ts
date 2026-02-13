@@ -4,8 +4,8 @@
 export interface SocketLike {
     writable?: boolean;
     _prompted?: boolean;
-    write(data: string): unknown;
-    command?(name: string, ...args: unknown[]): unknown;
+    write(data: string): boolean | void;
+    command?(name: string): void;
 }
 
 /**
