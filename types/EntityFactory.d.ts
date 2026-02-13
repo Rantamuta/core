@@ -29,6 +29,7 @@ declare class EntityFactory {
      * @param {string}   event
      * @param {Function} listener
      */
+    // Script listener payloads vary by emitted game event.
     addScriptListener(entityRef: string, event: string, listener: (...args: unknown[]) => void): void;
     /**
      * Create a new instance of a given npc definition. Resulting npc will not be held or equipped
@@ -59,5 +60,6 @@ type EntityDefinition = {
     entityReference?: string;
     area?: Area;
     id?: string | number;
+    // Entity definitions include type-specific keys (items, npcs, rooms, etc.).
     [key: string]: unknown;
 };
