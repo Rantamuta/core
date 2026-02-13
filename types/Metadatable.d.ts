@@ -9,7 +9,7 @@ declare function Metadatable<TBase extends Constructor<HasMetadata>>(parentClass
 type Constructor<T = object> = new (...args: unknown[]) => T;
 type HasMetadata = {
     metadata: Record<string, unknown>;
-    emit(eventName: string, ...args: unknown[]): unknown;
+    emit(eventName: string, ...args: unknown[]): boolean;
 };
 type MetadatableInstance = {
     setMeta(key: string, value: unknown): void;
