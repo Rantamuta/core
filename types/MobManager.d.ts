@@ -3,7 +3,7 @@ export = MobManager;
  * Keeps track of all the individual mobs in the game
  */
 declare class MobManager {
-    mobs: Map<unknown, unknown>;
+    mobs: Map<string, Npc>;
     /**
      * @param {Mob} mob
      */
