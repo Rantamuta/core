@@ -17,22 +17,22 @@ declare class Skill {
      * @param {GameState} state
      */
     constructor(id: string, config: object, state: GameState);
-    configureEffect: unknown;
-    cooldownGroup: unknown;
-    cooldownLength: unknown;
-    effect: unknown;
-    flags: unknown;
+    configureEffect: (effect: Effect) => Effect;
+    cooldownGroup: string | null;
+    cooldownLength: number | null;
+    effect: string | null;
+    flags: SkillFlagValue[];
     id: string;
-    info: unknown;
-    initiatesCombat: unknown;
-    name: unknown;
-    options: unknown;
-    requiresTarget: unknown;
-    resource: unknown;
-    run: unknown;
+    info: (...args: unknown[]) => string;
+    initiatesCombat: boolean;
+    name: string;
+    options: Record<string, unknown>;
+    requiresTarget: boolean;
+    resource: SkillResourceCost | SkillResourceCost[] | null;
+    run: (...args: unknown[]) => unknown;
     state: GameState;
-    targetSelf: unknown;
-    type: unknown;
+    targetSelf: boolean;
+    type: SkillTypeValue;
     /**
      * perform an active skill
      * @param {string} args
@@ -45,8 +45,8 @@ declare class Skill {
      * @return {boolean} If the player has paid the resource cost(s).
      */
     payResourceCosts(player: Player): boolean;
-    payResourceCost(player: unknown, resource: unknown): void;
-    activate(player: unknown): void;
+    payResourceCost(player: Player, resource: SkillResourceCost): void;
+    activate(player: Player): void;
     /**
      * @param {Character} character
      * @return {boolean|Effect} If on cooldown returns the cooldown effect
@@ -74,7 +74,7 @@ declare class Skill {
             type: string;
         };
         state: {
-            cooldownId: unknown;
+            cooldownId: string | null;
         };
         listeners: {
             effectDeactivated: () => void;
@@ -99,3 +99,11 @@ import Character = require("./Character");
 import Effect = require("./Effect");
 import Player = require("./Player");
 import GameState = require("./GameState");
+import SkillFlag = require("./SkillFlag");
+import SkillType = require("./SkillType");
+type SkillFlagValue = typeof SkillFlag[keyof typeof SkillFlag];
+type SkillTypeValue = typeof SkillType[keyof typeof SkillType];
+type SkillResourceCost = {
+    attribute: string;
+    cost: number;
+};
