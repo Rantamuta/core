@@ -21,6 +21,7 @@ declare class QuestTracker {
      * @param {string} event
      * @param {...*}   args
      */
+    // Event payloads vary by event name.
     emit(event: string, ...args: unknown[]): void;
     /**
      * @param {EntityReference} qid
@@ -58,6 +59,7 @@ import GameState = require("./GameState");
 type ActiveQuestRecord = {
     state: Array<Record<string, unknown>>;
     started?: string;
+    // Active quest records may include quest-specific extension fields.
     [key: string]: unknown;
 };
 type CompletedQuestRecord = {
