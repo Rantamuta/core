@@ -7,6 +7,7 @@ export = Scriptable;
  */
 declare function Scriptable<TBase extends Constructor<ScriptableBase>>(parentClass: TBase): TBase & Constructor<ScriptableInstance>;
 import BehaviorManager = require("./BehaviorManager");
+// Mixin-compatible constructor signature with unconstrained ctor args.
 type Constructor<T = object> = new (...args: unknown[]) => T;
 type ScriptableBase = {
     behaviors: Map<string, unknown>;
