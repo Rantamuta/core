@@ -57,5 +57,6 @@ type SerializedInventoryItem = {
         items: Array<[string, unknown]>;
         max: number;
     };
+    // Serialized item payload may include arbitrary item-specific fields.
     [key: string]: unknown;
 };
