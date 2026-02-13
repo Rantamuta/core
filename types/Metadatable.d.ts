@@ -12,6 +12,7 @@ type HasMetadata = {
     emit(eventName: string, ...args: unknown[]): boolean;
 };
 type MetadatableInstance = {
+    // Metadata values are intentionally unconstrained extension data.
     setMeta(key: string, value: unknown): void;
     getMeta(key: string): unknown;
 };
