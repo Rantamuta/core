@@ -16,6 +16,7 @@ type ScriptableBase = {
 };
 type ScriptableInstance = {
     hasBehavior(name: string): boolean;
+    // Behavior config payload is bundle-defined.
     getBehavior(name: string): unknown;
     setupBehaviors(manager: BehaviorManager): void;
 };
