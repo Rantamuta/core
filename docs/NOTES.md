@@ -6,6 +6,10 @@ This section is for downstream game repo maintainers, bundle authors, and automa
 
 This repository is the core engine only. It is designed to be extended by downstream repos through bundles, custom modules, and configuration, rather than by modifying core internals.
 
+## Proposals
+
+- Runtime area hot-reload design spec: `docs/proposals/AREA_HOT_RELOAD.md`
+
 ## Public API surface
 
 The engine entrypoint uses `require-dir('./src/')`, which means every module under `src/` is part of the public API surface and should be treated as stable for downstream consumers.
